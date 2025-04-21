@@ -1,12 +1,3 @@
-:root {
-    --primary-color: #FF8C00;
-    --primary-hover: #FF7000;
-    --foreground: hsl(222.2, 84%, 4.9%);
-    --primary-foreground: hsl(210, 40%, 98%);
-    --muted-foreground: hsl(215.4, 16.3%, 46.9%);
-    --main-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  }
-  
   .testimonials {
     background-color: #ffe5cc; /* light orange */
     padding: 4rem 2rem;

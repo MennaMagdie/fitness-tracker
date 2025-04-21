@@ -1,8 +1,23 @@
-#root {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
+  html, body, #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* body {
+    overflow-x: hidden;
+  } */
+
+  :root {
+    --primary-color: #FF8C00;
+    --primary-hover: #FF7000;
+    --foreground: hwb(223 1% 91%);
+    --primary-foreground: hsl(210, 40%, 98%);
+    --muted-foreground: hsl(215.4, 16.3%, 46.9%);
+    --destructive-foreground: hsl(210, 40%, 98%);
+    --main-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
   
   .logo {
