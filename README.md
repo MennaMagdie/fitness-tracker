@@ -10,7 +10,7 @@ to be added: link lel deployment
 
 ---
 
-## Key Features (to be modified as well)
+## Key Features
 
 - Responsive landing page with smooth navigation
 - Authentication system (sign up / log in)
@@ -37,6 +37,36 @@ to be added: link lel deployment
 | `/feedback`   | Submit suggestions, bug reports, or testimonials                           |
 ---
 
+
+## Project Structure (IMPORTANT WE NEED TO FOLLOW IT FOR AN ORGANIZED PROJECT)
+
+```plaintext
+src folder:
+
+
+├── App.tsx       # main 
+├── App.css       # general design (applied on all pages)
+
+├── pages/        # directory containing all pages
+        ├── Landing.tsx
+        ├── Home.tsx
+        ├── Login.tsx
+        .
+        .
+
+├── components/           
+        ├── Navbar.tsx      # files for all reusable components 
+        ├── Navbar.css      # and their css
+        ├── Landing/        # folder for custom components per page
+                ├── Hero.tsx
+                ├── Hero.css        
+                ├── Pricing.tsx
+                ├── Pricing.css
+        ├── Home/        
+                ├── blabla.tsx
+                ├── blabla.css
+```
+
 ## Tech Stack
 
 **Frontend**
@@ -50,7 +80,3 @@ to be added: link lel deployment
 - Express.js
 - MongoDB for user data and posts
 ---
-
-## Project Structure
-
-to be added
