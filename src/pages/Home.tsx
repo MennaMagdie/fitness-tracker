@@ -1,10 +1,10 @@
 
 import React from "react";
-import { Navbar } from "../components/Navbar";
-import { WorkoutCard } from "../components/WorkoutCard";
-import { WeeklyChallenge } from "../components/WeeklyChallenge";
-import { Leaderboard } from "../components/Landing/Leaderboard";
-import { Footer } from "../components/Landing/Footer";
+import { Navbar } from "../components/Home/Navbar";
+import { WorkoutCard } from "../components/Home/WorkoutCard";
+import { WeeklyChallenge } from "../components/Home/WeeklyChallenge";
+import { Leaderboard } from "../components/Home/Leaderboard";
+import { Footer } from "../components/Home/Footer";
 
 const workouts = [
   {
