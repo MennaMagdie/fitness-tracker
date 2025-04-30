@@ -15,7 +15,7 @@ body {
     top: 0;
     z-index: 10;
     font-family: var(--main-font);
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    flex-wrap: wrap; 
   }
   
   .navbar-logo {
@@ -24,7 +24,6 @@ body {
     color: var(--primary-color);
   }
   
-  /* Navbar links container */
   .navbar-links {
     list-style: none;
     display: flex;
@@ -33,7 +32,6 @@ body {
     padding: 0;
   }
   
-  /* Individual link styles */
   .navbar-links a {
     text-decoration: none;
     color: var(--secondary-foreground);
@@ -44,13 +42,11 @@ body {
     color: var(--foreground);
   }
   
-  /* Buttons container */
   .navbar-buttons {
     display: flex;
     gap: 0.5rem;
   }
   
-  /* Login / Signup buttons */
   .login-btn,
   .signup-btn {
     padding: 0.5rem 1rem;

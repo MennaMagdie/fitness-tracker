@@ -40,20 +40,20 @@ const Pricing = () => {
   return (
     <section className="pricing">
       <div className="container">
-        <h2 className="text-center h2 fw-bold mb-5">Choose your plan</h2>
+        <h2 className="text-center h2 fw-bold mb-5">Choose Your Plan</h2>
         <div className="row justify-content-center">
           {plans.map((plan, index) => (
             <div key={index} className="col-md-4 mb-4">
               <div className={`pricing-card ${plan.featured ? "featured" : ""}`}>
                 <h3 className="h4 fw-semibold mb-2">{plan.name}</h3>
                 <div className="h2 fw-bold mb-4">
-                  ${plan.price}
+                  {plan.price}EGP
                   <span className="h5 fw-normal">/month</span>
                 </div>
                 <ul className="list-unstyled mb-4">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="d-flex align-items-center mb-2">
-                      <span className="me-2">✓</span>
+                      <span className="me-2">→ </span>
                       {feature}
                     </li>
                   ))}

@@ -1,62 +1,64 @@
-  .pricing {
-    padding: 4rem 2rem;
-    font-family: var(--main-font);
-  }
-  
-  .row {
-    display: flex;
-    justify-content: space-between; /* This makes the plans side by side */
-    gap: 2rem; /* Adds space between the pricing cards */
-  }
-  
-  .pricing-card {
-    flex: 1; /* Make the cards take equal space */
-    min-height: 380px; /* You can adjust this height as needed */
-    border: 1px solid #ddd;
-    padding: 2rem;
-    border-radius: 12px;
-    background-color: #fff;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease;
-  }
-  
-  .pricing-card.featured {
-    border: 2px solid var(--primary-color);
-    transform: scale(1.05);
-  }
-  
-  .pricing-card ul {
-    padding-left: 0;
-    list-style: none;
-  }
-  
-  .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-  }
-  
-  .btn-outline {
-    background-color: transparent;
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
-  }
-  
-  .btn-outline:hover {
-    background-color: var(--primary-hover);
-    color: white;
-  }
-  
-  .btn-light {
-    background-color: var(--primary-color);
-    border: none;
-    color: white;
-  }
-  
-  .btn-light:hover {
-    background-color: var(--primary-hover);
-  }
-  
+.pricing {
+  padding: 4rem 2rem;
+  font-family: var(--main-font);
+}
+
+
+/* this solved the cards problem (by dividing into 3 equal columns */
+.row {
+  display: grid; /* Use grid layout for even columns */
+  grid-template-columns: repeat(3, 1fr); /* Create 3 equal columns */
+  gap: 2rem; /* Adds space between the pricing cards */
+  justify-items: center; /* Center items horizontally */
+  align-items: stretch; /* Ensure all cards stretch to the same height */
+}
+
+.pricing-card {
+  min-height: 380px; 
+  border: 1px solid #ddd;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: #fff;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.pricing-card.featured {
+  border: 2px solid var(--primary-color);
+  transform: scale(1.05);
+}
+
+.pricing-card ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline:hover {
+  background-color: var(--primary-hover);
+  color: white;
+}
+
+.btn-light {
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+}
+
+.btn-light:hover {
+  background-color: var(--primary-hover);
+}

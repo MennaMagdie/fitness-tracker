@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Hero.css";
 
 const Hero = () => {
@@ -16,7 +17,7 @@ const Hero = () => {
           </svg>
         </div>
         <h1>Track your activities<br />and goals</h1>
-        <button className="btn-lg">Get Started</button>
+        <Link to="/login"><button className="btn-lg">Get Started</button></Link>
       </div>
     </section>
   );

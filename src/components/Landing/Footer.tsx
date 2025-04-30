@@ -1,58 +1,67 @@
-import "./Footer.css"
+import "./Footer.css";
+
 const Footer = () => {
-    return (
-      <footer className="footer">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-5 mb-4 mb-md-0">
-              <h3 className="h4 fw-bold mb-4">FitTrack</h3>
-              <p className="text-muted mb-4">
-                Track your daily fitness progress and achieve your goals with our comprehensive fitness tracking solution.
-              </p>
-              <p className="text-muted mb-4">
-                Contact Us
-              </p>
-            </div>
-            
-            <div className="col-md-2 mb-4 mb-md-0">
-              <h4 className="h6 fw-semibold mb-3">Our Story</h4>
-              <ul className="list-unstyled">
-                <li className="mb-2">
-                  <a href="#" className="footer-link">Learn more about us</a>
-                </li>
-                <li className="mb-2">
-                  <a href="#" className="footer-link">Manage your membership</a>
-                </li>
-              </ul>
-            </div>
-  
-            <div className="col-md-2 mb-4 mb-md-0">
-              <h4 className="h6 fw-semibold mb-3">Get Support</h4>
-              <ul className="list-unstyled">
-                <li className="mb-2">
-                  <a href="#" className="footer-link">Contact us</a>
-                </li>
-                <li className="mb-2">
-                  <a href="#" className="footer-link">FAQ</a>
-                </li>
-              </ul>
-            </div>
-  
-            <div className="col-md-3">
-              <h4 className="h6 fw-semibold mb-3">Join our fitness</h4>
-              <ul className="list-unstyled">
-                <li className="mb-2">
-                  <a href="#" className="footer-link">Connect with us on LinkedIn</a>
-                </li>
-                <li className="mb-2">
-                  <a href="#" className="footer-link">Follow us on Instagram</a>
-                </li>
-              </ul>
-            </div>
-          </div>
+  return (
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="footer-section about">
+          <h3 className="footer-title">NeuroFit</h3>
+          <p className="footer-description">
+            Track your daily fitness progress and achieve your goals with our
+            comprehensive fitness tracking solution.
+          </p>
         </div>
-      </footer>
-    );
-  };
-  
-  export default Footer;
+
+        <div className="footer-section">
+          <h4 className="footer-subtitle">Our Story</h4>
+          <ul className="footer-links">
+            <li>
+              <a href="#" className="footer-link">
+                Learn more about us
+              </a>
+            </li>
+            <li>
+              <a href="#" className="footer-link">
+                Manage your membership
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="footer-section">
+          <h4 className="footer-subtitle">Get Support</h4>
+          <ul className="footer-links">
+            <li>
+              <a href="#" className="footer-link">
+                Contact us
+              </a>
+            </li>
+            <li>
+              <a href="#" className="footer-link">
+                FAQ
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="footer-section">
+          <h4 className="footer-subtitle">Join our fitness</h4>
+          <ul className="footer-links">
+            <li>
+              <a href="#" className="footer-link">
+                Connect with us on LinkedIn
+              </a>
+            </li>
+            <li>
+              <a href="#" className="footer-link">
+                Follow us on Instagram
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

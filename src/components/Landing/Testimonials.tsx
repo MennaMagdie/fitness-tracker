@@ -2,25 +2,29 @@ import "./Testimonials.css";
 
 const testimonials = [
   {
-    text: "Positive Feedback",
-    author: "Fitness Enthusiast",
-    role: "User Testimonial",
+    text: "NeuroFit has completely transformed my fitness journey. The workout suggestions are spot on, and the progress tracking feature keeps me motivated every day. I’ve seen incredible results, and it’s all thanks to this app!",
+    author: "Menna Magdy",
+    role: "Fitness Enthusiast",
   },
+  
   {
-    text: "User Testimonial",
-    author: "Fitness Influencer",
+    text: "I’ve tried multiple fitness apps, but none of them come close to NeuroFit. The community is amazing, the progress dashboard is super helpful, and the feedback system is easy to use. Highly recommend it!",
+    author: "Mathilda Wae",
     role: "User Testimonial",
   },
+  
   {
-    text: "User Testimonial",
-    author: "Fitness Student",
+    text: "As someone who’s always struggled to stay motivated, NeuroFit has been a game-changer. The daily reminders and personalized workout plans have helped me stay on track.",
+    author: "Chris Smith",
     role: "User Testimonial",
   },
+  
   {
-    text: "User Testimonial",
-    author: "Fitness Professional",
-    role: "User Testimonial",
-  },
+    text: "I love how NeuroFit makes tracking my fitness goals so easy. The dashboard provides detailed insights, and the support from the team is amazing. It’s an all-in-one solution that really works!",
+    author: "Rachel Lee",
+    role: "Fitness Enthusiast",
+  }
+  ,
 ];
 
 const Testimonials = () => {
@@ -28,7 +32,7 @@ const Testimonials = () => {
     <section className="testimonials">
       <div className="container">
         <h2 className="testimonial-title">
-          Join FitTrack community and stay motivated
+          Join NeuroFit Community and stay motivated
         </h2>
         <div className="testimonial-cards">
           {testimonials.map((testimonial, index) => (
