@@ -1,0 +1,117 @@
+body { 
+    font-family: var(--main-font);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    font-family: var(--main-font);
+    flex-wrap: wrap; 
+  }
+  
+  .navbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-links a {
+    text-decoration: none;
+    color: var(--secondary-foreground);
+    font-weight: 500;
+  }
+  
+  .navbar-links a:hover {
+    color: var(--foreground);
+  }
+  
+  .navbar-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .login-btn,
+  .signup-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .login-btn {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+  }
+  
+  .signup-btn {
+    background-color: var(--primary-color);
+    color: var(--primary-foreground);
+    border: 1px solid var(--primary-color);
+  }
+  
+  .login-btn:hover,
+  .signup-btn:hover {
+    background-color: var(--primary-hover);
+    color: var(--primary-foreground);
+    border-color: var(--primary-hover);
+  }
+
+  .hamburger {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+  }
+  
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
+    }
+  
+    .navbar {
+      flex-wrap: wrap;
+    }
+  
+    .navbar-links,
+    .navbar-buttons {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 1rem;
+    }
+  
+    .navbar-links.open,
+    .navbar-buttons.open {
+      display: flex;
+    }
+  
+    .navbar-links li {
+      margin-bottom: 0.5rem;
+    }
+  
+    .navbar-buttons {
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+  
