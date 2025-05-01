@@ -42,7 +42,7 @@ const Signup = () => {
     <Navbar></Navbar>
     <div className="signup">
       <div className="signup-container">
-        <h2 className="text-center">Create Your Account</h2>
+        <h2 className="text-center">Become a NeuroFitter</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="fullName">Full Name</label>
