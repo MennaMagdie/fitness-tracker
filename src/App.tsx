@@ -1,6 +1,4 @@
-
 import './App.css'
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Signup from './pages/Signup';
@@ -9,6 +7,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Workouts from './pages/Workouts';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -20,6 +19,7 @@ function App() {
   <Route path="/profile" element={<Profile />} />
   <Route path="/dashboard" element={<Dashboard />} />
   <Route path="/workouts" element={<Workouts />} />
+  <Route path="/settings" element={<Settings />} />
 </Routes>
   );
 }
