@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import React from "react";
+
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,7 +16,7 @@ const Navbar = () => {
       </button>
 
       <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
-      <li><Link to="/">Home</Link></li>
+      <li><Link to="/Home">Home</Link></li>
       <li><Link to="/profile">Profile</Link></li>
       <li><Link to="/dashboard">Dashboard</Link></li>
       <li><Link to="/workouts">Workouts</Link></li>
