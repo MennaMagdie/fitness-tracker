@@ -1,0 +1,100 @@
+.filtersContainer {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.filtersTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.filterGroup {
+  margin-bottom: 1.5rem;
+}
+
+.filterTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  color: #4a4a4a;
+}
+
+.filterOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  color: #4a4a4a;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.filterButton:hover {
+  background-color: #f0f0f0;
+  border-color: #d0d0d0;
+}
+
+.filterButton.active {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.filterIcon {
+  font-size: 1.1rem;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .filtersContainer {
+    padding: 1rem;
+  }
+
+  .filtersTitle {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .filterGroup {
+    margin-bottom: 1rem;
+  }
+
+  .filterButton {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .filtersContainer {
+    width: 300px;
+    margin-right: 2rem;
+    margin-bottom: 0;
+  }
+
+  .workoutsContainer {
+    display: flex;
+  }
+
+  .workoutsGrid {
+    flex: 1;
+  }
+} 
