@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Home, User, Users } from 'lucide-react';
+import { Home, User, Users, ActivityIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
   return (
@@ -8,13 +9,18 @@ export const Navbar = () => {
       <div className="container px-4 sm:px-6 lg:px-8">
         <div className="navbar-container">
           <div className="flex">
-            <a href="/" className="navbar-brand navbar-link">
+            <Link to="/" className="navbar-brand navbar-link">
               <Home className="h-6 w-6 text-primary" />
               <span className="ml-2 text-xl font-semibold">NeuroFit</span>
-            </a>
+            </Link>
           </div>
 
           <div className="flex items-center space-x-4">
+            <Link to="/dashboard" className="btn btn-ghost navbar-link">
+              <ActivityIcon className="mr-2 h-4 w-4" />
+              Dashboard
+            </Link>
+
             <div className="dropdown">
               <button className="btn btn-ghost navbar-link">Services</button>
               <div className="dropdown-content">
