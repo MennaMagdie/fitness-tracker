@@ -1,46 +1,84 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# NeuroFit
 
-## Available Scripts
+**NeuroFit** is a full-stack fitness tracking web application built using **MERN stack** (MongoDB, Express, React, Node.js). The platform aims to help users monitor their fitness journey, engage with a fitness community, and access personalized health tools.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Live Demo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+to be added: link lel deployment
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## Key Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Responsive landing page with smooth navigation
+- Authentication system (sign up / log in)
+- Personalized dashboard with progress charts and trackers
+- Profile management with BMI calculator and streak tracking
+- Community feed for posts and interaction
+- Reminders, workout recommendations, and nutrition tracking
+- Online trainer services and payment support
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## App Structure (Pages & Routes) "FOR NOWWW"
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Route         | Description                                                                 |
+|---------------|-----------------------------------------------------------------------------|
+| `/`           | Landing page with intro, about, testimonials, contact, and sign up/login   |
+| `/signup`     | User registration with name, email, password, and location                 |
+| `/login`      | Secure login with email/username and password                              |
+| `/home`       | Welcome message, daily workout ideas, leaderboard highlights               |
+| `/profile`    | User settings, streak info, BMI display (with API or calculator)           |
+| `/dashboard`  | Progress analytics, nutrition tracker, reminders                           |
+| `/workouts`   | Browse and filter workouts by type, time, or difficulty                    |
+| `/community`  | Social feed-like section with user-generated posts                         |
+| `/feedback`   | Submit suggestions, bug reports, or testimonials                           |
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Project Structure (IMPORTANT WE NEED TO FOLLOW IT FOR AN ORGANIZED PROJECT)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```plaintext
+src folder:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+├── App.tsx       # main 
+├── App.css       # general design (applied on all pages)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+├── pages/        # directory containing all pages
+        ├── Landing.tsx
+        ├── Home.tsx
+        ├── Login.tsx
+        .
+        .
 
-## Learn More
+├── components/           
+        ├── Navbar.tsx      # files for all reusable components 
+        ├── Navbar.css      # and their css
+        ├── Landing/        # folder for custom components per page
+                ├── Hero.tsx
+                ├── Hero.css        
+                ├── Pricing.tsx
+                ├── Pricing.css
+        ├── Home/        
+                ├── blabla.tsx
+                ├── blabla.css
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Tech Stack
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Frontend**
+- React + TypeScript
+- CSS Modules / Custom CSS
+- Responsive design (Mobile-First)
+- React Router for client-side routing
+
+**Backend (Not yet done)**
+- Node.js
+- Express.js
+- MongoDB for user data and posts
+---
+>>>>>>> 8814f5572c8932e759176cadd22278d8d815327b

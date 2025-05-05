@@ -1,0 +1,56 @@
+
+  .hero {
+    background-color: white;
+    color: var(--foreground);
+    background-image: url(../../../assets/hero-image.png);
+    background-size: cover;
+    background-position: center;
+    padding: 5rem 2rem;
+    text-align: center;
+    font-family: var(--main-font);
+  }
+  
+
+  /* copied this from somewhere */
+  .hero-icon svg {
+    width: 60px;
+    height: 60px;
+    color: var(--primary-color);  /* This is the fill color */
+    margin-bottom: 1.5rem;
+    stroke: black;  /* Apply black border */
+    stroke-width: 1px;  /* Define the thickness of the border */
+    fill: var(--primary-color);  /* Ensure the color is set correctly */
+  }
+  
+  
+  .hero h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: white;
+    line-height: 1.2;
+    /* this issss perfect */
+    text-shadow: 
+      2px 2px 4px rgba(0, 0, 0, 0.7),  
+      -2px -2px 4px rgba(0, 0, 0, 0.7), 
+      2px -2px 4px rgba(0, 0, 0, 0.7), 
+      -2px 2px 4px rgba(0, 0, 0, 0.7); 
+  }
+  
+  
+  .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-lg:hover {
+    background-color: var(--primary-hover);
+    color: white;
+  }
+  

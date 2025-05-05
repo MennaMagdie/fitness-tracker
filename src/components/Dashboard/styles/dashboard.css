@@ -1,0 +1,529 @@
+
+/* Dashboard styles */
+.dashboard-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--foreground);
+  }
+
+  .btn-ghost:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .btn-full {
+    width: 100%;
+  }
+  
+  /* Header styles */
+  .dashboard-header {
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .dashboard-header.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .dashboard-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .dashboard-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #666;
+  }
+  
+  .breadcrumb-link {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .breadcrumb-link:hover {
+    color: #e05e1a;
+    text-decoration: underline;
+  }
+  
+  .breadcrumb-separator {
+    width: 16px;
+    height: 16px;
+    margin: 0 0.5rem;
+    color: #999;
+  }
+  
+  .breadcrumb-current {
+    color: #666;
+    font-weight: 500;
+  }
+  
+  /* Dashboard grid layout */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .progress-section {
+      grid-column: 1 / -1;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .progress-section {
+      grid-column: 1 / 3;
+    }
+  }
+  
+  /* Card styles */
+  .dashboard-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+  }
+  
+  .dashboard-card.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(255, 126, 66, 0.15);
+  }
+  
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.25rem;
+    position: relative;
+    padding-left: 1rem;
+  }
+  
+  .section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  
+  .subsection-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+    margin: 1.5rem 0 1rem 0;
+  }
+  
+  .form-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+  }
+  
+  /* Progress Chart styles */
+  .progress-chart-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .chart-filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .chart-filter-btn {
+    background-color: #f5f5f5;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .chart-filter-btn:hover {
+    background-color: #ededed;
+    color: #333;
+  }
+  
+  .chart-filter-btn.active {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .chart-wrapper {
+    height: 300px;
+    margin-bottom: 1rem;
+  }
+  
+  /* Nutrition Tracker styles */
+  .nutrition-tracker {
+    width: 100%;
+  }
+  
+  .nutrition-summary {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .nutrition-summary {
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    .macro-chart {
+      flex: 1;
+    }
+    
+    .nutrition-totals {
+      flex: 1;
+      padding-left: 1.5rem;
+    }
+  }
+  
+  .nutrition-totals {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .total-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 0.75rem;
+    text-align: center;
+  }
+  
+  .total-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+  }
+  
+  .total-value {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .meal-list {
+    list-style-type: none;
+    margin-bottom: 1.5rem;
+  }
+  
+  .meal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .meal-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .meal-details {
+    flex: 1;
+  }
+  
+  .meal-name {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.25rem;
+  }
+  
+  .meal-macros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .meal-macros span {
+    font-size: 0.75rem;
+    color: #666;
+  }
+  
+  .meal-time {
+    font-size: 0.75rem;
+    color: #888;
+  }
+  
+  .delete-meal-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 1.25rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  
+  .delete-meal-btn:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff5252;
+  }
+  
+  .add-meal-form {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  /* Reminders styles */
+  .reminders-container {
+    width: 100%;
+  }
+  
+  .reminders-list {
+    list-style-type: none;
+    margin-bottom: 1.5rem;
+  }
+  
+  .reminder-item {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+    border-left: 4px solid #ddd;
+  }
+  
+  .reminder-item.workout {
+    border-left-color: var(--primary);
+  }
+  
+  .reminder-item.nutrition {
+    border-left-color: #22c55e;
+  }
+  
+  .reminder-item.other {
+    border-left-color: #6366f1;
+  }
+  
+  .reminder-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .reminder-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 1rem;
+  }
+  
+  .reminder-icon.workout {
+    color: var(--primary);
+  }
+  
+  .reminder-icon.nutrition {
+    color: #22c55e;
+  }
+  
+  .reminder-icon.other {
+    color: #6366f1;
+  }
+  
+  .reminder-content {
+    flex: 1;
+  }
+  
+  .reminder-title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.25rem;
+  }
+  
+  .reminder-time {
+    font-size: 0.75rem;
+    color: #888;
+  }
+  
+  .delete-reminder-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 1.25rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  
+  .delete-reminder-btn:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff5252;
+  }
+  
+  .add-reminder-form {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  /* Form elements */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 576px) {
+    .form-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .form-row.form-row-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 0.375rem;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.625rem;
+    font-size: 0.875rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    color: #333;
+    background-color: white;
+    transition: all 0.2s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(255, 126, 66, 0.2);
+  }
+  
+  .form-group input::placeholder {
+    color: #aaa;
+  }
+  
+  .add-meal-submit,
+  .add-reminder-submit {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+  }
+  
+  .add-meal-submit:hover,
+  .add-reminder-submit:hover {
+    background-color: #e05e1a;
+  }
+  
+  /* Animation classes */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .fade-in.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* For staggered animations */
+  .fade-in:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+  
+  .fade-in:nth-child(3) {
+    transition-delay: 0.2s;
+  }
+  
+  .fade-in:nth-child(4) {
+    transition-delay: 0.3s;
+  }
+  
