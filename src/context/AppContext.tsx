@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { getProgress, getNutrition, getTodayNutrition } from '../services/api';
+import styles from '../../pages/Profile.module.css';
 
 interface UserData {
   name: string;
@@ -146,7 +147,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         ]);
         dispatch({ type: 'SET_PROGRESS', payload: progressData });
         dispatch({ type: 'SET_NUTRITION', payload: nutritionData });
-        dispatch({ type: 'UPDATE_TODAY_NUTRITION', payload: todayNutrition });
+        dispatch({ type: 'UPDATE_TODAY_NUTRITION', payload: todayNutrition.totals });
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to fetch data' });
       } finally {
@@ -161,7 +162,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updateTodayNutrition = async () => {
       try {
         const todayNutrition = await getTodayNutrition();
-        dispatch({ type: 'UPDATE_TODAY_NUTRITION', payload: todayNutrition });
+        dispatch({ type: 'UPDATE_TODAY_NUTRITION', payload: todayNutrition.totals });
       } catch (error) {
         console.error('Failed to update today\'s nutrition:', error);
       }
