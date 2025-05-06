@@ -23,6 +23,7 @@ const {
 // Profile routes
 router.get('/profile', protect, getProfile);
 router.put('/profile', protect, profileUpdateRules, validate, updateProfile);
+router.patch('/profile', protect, profileUpdateRules, validate, updateProfile);
 
 // Streak routes
 router.get('/streak', protect, getStreak);

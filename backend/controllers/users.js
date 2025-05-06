@@ -31,7 +31,8 @@ exports.updateProfile = async (req, res, next) => {
       gender, 
       fitnessGoals, 
       activityLevel,
-      dailyNutritionGoals 
+      dailyNutritionGoals,
+      profileImage
     } = req.body;
 
     // Build update object
@@ -44,6 +45,7 @@ exports.updateProfile = async (req, res, next) => {
     if (gender) updateFields['profile.gender'] = gender;
     if (fitnessGoals) updateFields['profile.fitnessGoals'] = fitnessGoals;
     if (activityLevel) updateFields['profile.activityLevel'] = activityLevel;
+    if (profileImage) updateFields.profileImage = profileImage;
     if (dailyNutritionGoals) {
       if (dailyNutritionGoals.calories) updateFields['dailyNutritionGoals.calories'] = dailyNutritionGoals.calories;
       if (dailyNutritionGoals.protein) updateFields['dailyNutritionGoals.protein'] = dailyNutritionGoals.protein;
