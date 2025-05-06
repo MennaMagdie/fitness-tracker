@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Profile.module.css';
-import Navbar from '../components/Navbar';
+import { Navbar } from '../components/Home/Navbar';
 import Footer from '../components/Landing/Footer';
 
 interface UserData {
@@ -54,6 +54,7 @@ const Profile: React.FC = () => {
     emailUpdates: false,
     language: 'en',
   });
+  const location = useLocation();
 
   const [profileForm, setProfileForm] = useState({
     name: userData.name,
@@ -283,6 +284,15 @@ const Profile: React.FC = () => {
   };
   const getNutritionPercent = (type: keyof typeof nutritionGoals) =>
     Math.min(100, Math.round((nutritionIntake[type] / nutritionGoals[type]) * 100));
+
+  // Set active tab based on query parameter
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [location.search]);
 
   return (
     <>

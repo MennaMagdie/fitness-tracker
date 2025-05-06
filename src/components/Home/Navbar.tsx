@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Home, User, Users, ActivityIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -48,9 +47,10 @@ export const Navbar = () => {
                 Profile
               </button>
               <div className="dropdown-content">
-                <a href="#" className="dropdown-item">Settings</a>
-                <a href="#" className="dropdown-item">My Workouts</a>
-                <a href="#" className="dropdown-item">Sign Out</a>
+                <Link to="/profile?tab=streak" className="dropdown-item">Profile</Link>
+                <Link to="/profile?tab=settings" className="dropdown-item">Settings</Link>
+                <a href="/profile?tab=progress" className="dropdown-item">My Workouts</a>
+                <a href="/login" className="dropdown-item">Sign Out</a>
               </div>
             </div>
           </div>

@@ -12,6 +12,7 @@ import WorkoutDetail from './pages/Workouts-page/WorkoutDetail';
 import { WorkoutPlanProvider } from './context/WorkoutPlanContext';
 import StartWorkout from './pages/Workouts-page/StartWorkout/StartWorkout';
 
+
 const App: React.FC = () => {
   return (
     <WorkoutPlanProvider>
