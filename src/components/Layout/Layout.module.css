@@ -1,0 +1,27 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main {
+  flex: 1;
+  padding-top: 80px; /* Navbar height */
+  background-color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding-top: 64px;
+  }
+} 
