@@ -4,6 +4,8 @@ import Hero from "../components/Landing/Hero";
 import Navbar from "../components/Navbar";
 import Pricing from "../components/Landing/Pricing";
 import Testimonials from "../components/Landing/Testimonials";
+import React from 'react';
+
 
 function Landing() {
     return( 

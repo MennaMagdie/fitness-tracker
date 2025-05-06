@@ -1,0 +1,1315 @@
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    font-size: 16px; /* Base font size for better rem scaling */
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f5f5f5;
+    line-height: 1.5;
+  }
+  
+  /* Container with improved responsive behavior */
+  .profileContainer {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    padding-top: 4.5rem; /* Increased to account for navbar height */
+    padding-bottom: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1);
+  }
+  
+  /* Profile header with improved spacing */
+  .profileHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    text-align: center;
+    padding: 0 1rem;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.1s both;
+  }
+  
+  /* Responsive profile photo container */
+  .profilePhotoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  
+  .profilePhoto {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #FFA500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 2.5px solid #FF6B35;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .profilePhotoPlaceholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #888;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 2.5px solid #FF6B35;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 0 10px;
+  }
+  
+  @media (min-width: 768px) {
+    .profilePhotoContainer {
+      width: 7.5rem;
+      height: 7.5rem;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .profilePhotoContainer {
+      width: 9rem;
+      height: 9rem;
+    }
+  }
+  
+  .profilePhoto:hover {
+    opacity: 0.8;
+  }
+  
+  .uploadButton {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+  
+  .profilePhotoContainer:hover .uploadButton {
+    opacity: 1;
+  }
+  
+  /* Responsive text sizing */
+  .userName {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #333;
+  }
+  
+  @media (min-width: 768px) {
+    .userName {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .userName {
+      font-size: 1.75rem;
+    }
+  }
+  
+  .userEmail {
+    color: #666;
+    margin: 0.25rem 0 0.75rem;
+    font-size: 0.875rem;
+    word-break: break-word;
+  }
+  
+  @media (min-width: 768px) {
+    .userEmail {
+      font-size: 1rem;
+    }
+  }
+  
+  
+  
+  /* Responsive tabs */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .tab {
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    background: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    flex: 1 0 auto;
+    min-width: 4.5rem;
+    max-width: 9rem;
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .tab.active {
+    color: #FF6B35;
+    border-bottom-color: #FF6B35;
+  }
+  
+  /* Responsive tab content */
+  .tabContent {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 95%;
+    overflow-x: hidden;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.15s both;
+  }
+  
+  @media (min-width: 768px) {
+    .tabContent {
+      padding: 1.5rem;
+      max-width: 90%;
+    }
+  }
+  
+  /* Settings styles */
+  .settings {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.2s both;
+  }
+  
+  .settingItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Switch styling */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 3rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 1.5rem;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 1rem;
+    width: 1rem;
+    left: 0.25rem;
+    bottom: 0.25rem;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #FF6B35;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(1.5rem);
+  }
+  
+  /* Info sections */
+  .bmiInfo, .streakInfo, .progressInfo, .nutritionInfo {
+    text-align: center;
+    width: 100%;
+  }
+  
+  /* BMI section */
+  .bmiInputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin: 1rem 0;
+    width: 100%;
+  }
+  
+  .inputGroup {
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  @media (min-width: 576px) {
+    .inputGroup {
+      flex: 1 1 45%;
+      max-width: 45%;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .inputGroup {
+      max-width: 40%;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .inputGroup {
+      max-width: 250px;
+    }
+  }
+  
+  .inputGroup label {
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .inputGroup input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .inputGroup input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+  
+  /* Responsive value displays */
+  .bmiValue {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FF6B35;
+    margin: 1rem 0;
+  }
+  
+  @media (min-width: 768px) {
+    .bmiValue {
+      font-size: 3rem;
+    }
+  }
+  
+  .bmiCategory {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  @media (min-width: 768px) {
+    .bmiCategory {
+      font-size: 1.125rem;
+    }
+  }
+  
+  .streakValue {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #FF6B35;
+    margin: 1rem 0;
+  }
+  
+  @media (min-width: 768px) {
+    .streakValue {
+      font-size: 2.25rem;
+    }
+  }
+  
+  /* Calendar grid */
+  .calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 0.5rem;
+    max-width: 300px;
+    margin: 1rem auto;
+    width: 100%;
+  }
+  
+  @media (min-width: 576px) {
+    .calendarGrid {
+      grid-template-columns: repeat(7, 1fr);
+      max-width: 350px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .calendarGrid {
+      max-width: 400px;
+      gap: 0.75rem;
+    }
+  }
+  
+  .calendarDay {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    border-radius: 50%;
+    font-size: 0.875rem;
+    margin: 0 auto;
+  }
+  
+  /* Progress bar */
+  .progressBar {
+    width: 100%;
+    max-width: 500px;
+    margin: 1rem auto;
+    height: 1rem;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .progressFill {
+    height: 100%;
+    background-color: #FF6B35;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+  }
+  
+  .progressValue {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FF6B35;
+  }
+  
+  /* Nutrition grid */
+  .nutritionGrid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  @media (min-width: 576px) {
+    .nutritionGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .nutritionGrid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  .nutritionItem {
+    background: #f5f5f5;
+    padding: 0.75rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .nutritionItem span:first-child {
+    display: block;
+    color: #666;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .nutritionItem input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .nutritionItem input:disabled {
+    background-color: #fff;
+    cursor: not-allowed;
+  }
+  
+  /* Logout button */
+  .logoutButton {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #FF6B35;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.3s both;
+  }
+  
+  .logoutButton:hover {
+    background-color: #FF8C42;
+  }
+  
+  .logoutButton:active {
+    transform: scale(0.96);
+    box-shadow: 0 1px 2px rgba(255,107,53,0.10);
+  }
+  
+  /* Name input */
+  .nameInputContainer {
+    margin: 0.5rem 0;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .nameInput {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #FF6B35;
+    border-radius: 5px;
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+    background-color: white;
+    color: #333;
+  }
+  
+  .nameInput:focus {
+    outline: none;
+    border-color: #FF8C42;
+    box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
+  }
+  
+  /* Navbar styling */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem ;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky; /* Keep sticky positioning as in your code */
+    top: 0;
+    z-index: 10;
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+    left: 0; /* Ensure left alignment */
+    right: 0; /* Ensure right alignment */
+    margin: 0; /* No margins */
+  }
+  
+  /* Logo styling */
+  .logo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #FF6B35;
+    text-decoration: none;
+    margin-right: 1rem;
+    white-space: nowrap;
+  }
+  
+  /* Navigation links */
+  .nav-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex: 1;
+    justify-content: flex-end;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: #FF6B35;
+    background-color: rgba(255, 107, 53, 0.1);
+  }
+  
+  /* Responsive menu toggle for mobile */
+  .menu-toggle {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+    padding: 0.5rem;
+    margin-left: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 0.5rem;
+      height: auto;
+      min-height: 60px;
+    }
+    
+    .menu-toggle {
+      display: block;
+    }
+    
+    .nav-links {
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .nav-links.active {
+      display: flex;
+    }
+    
+    .nav-links a {
+      width: 100%;
+      padding: 0.75rem 1rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .navbar {
+      padding: 0.75rem 2rem;
+    }
+    
+    .nav-links {
+      gap: 1.5rem;
+      justify-content: flex-end;
+    }
+    
+    .nav-links a {
+      font-size: 1rem;
+    }
+  }
+  
+  /* Additional responsive design improvements */
+  @media (max-width: 320px) {
+    html, body {
+      font-size: 14px;
+    }
+    
+    .tab {
+      min-width: 3.5rem;
+      padding: 0.4rem 0.5rem;
+    }
+    
+    .profilePhotoContainer {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+  
+  /* Utility classes for spacing and sizing */
+  .mt-1 { margin-top: 0.5rem; }
+  .mb-1 { margin-bottom: 0.5rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mb-2 { margin-bottom: 1rem; }
+  .p-1 { padding: 0.5rem; }
+  .p-2 { padding: 1rem; }
+  
+  /* Fix for very small devices */
+  @media (max-width: 360px) {
+    .tabs {
+      gap: 0.25rem;
+    }
+    
+    .tab {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.5rem;
+    }
+    
+    .tabContent {
+      padding: 0.75rem;
+    }
+  }
+  
+  /* Profile Form & BMI Card Containers */
+  .profileFormCard, .bmiCard {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: box-shadow 0.2s;
+  }
+  .profileFormCard:hover, .bmiCard:hover {
+    box-shadow: 0 4px 16px rgba(255,107,53,0.10);
+  }
+  
+  .profileFormHeading, .bmiCardHeading {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #FF6B35;
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    letter-spacing: 0.5px;
+  }
+  
+  .profileFormRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .profileFormRow label {
+    font-size: 1rem;
+    color: #333;
+    font-family: inherit;
+    margin-bottom: 0.15rem;
+  }
+  
+  .profileInput, .bmiInput, .languageSelect {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fafafa;
+    margin-top: 0.1rem;
+  }
+  .profileInput:focus, .bmiInput:focus, .languageSelect:focus {
+    border-color: #FF6B35;
+    box-shadow: 0 0 0 2px rgba(255,107,53,0.10);
+  }
+  
+  .profilePhotoEdit {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .profilePhotoPreview {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #FF6B35;
+    background: #fff;
+  }
+  
+  .saveProfileButton, .calculateBmiButton {
+    background: #FF6B35;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 4px rgba(255,107,53,0.08);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.3s both;
+  }
+  .saveProfileButton:hover, .calculateBmiButton:hover {
+    background: #FF8C42;
+    box-shadow: 0 4px 12px rgba(255,107,53,0.13);
+    transform: translateY(-2px) scale(1.03);
+  }
+  
+  .saveProfileButton:active, .calculateBmiButton:active {
+    transform: scale(0.96);
+    box-shadow: 0 1px 2px rgba(255,107,53,0.10);
+  }
+  
+  .profileError, .bmiError {
+    color: #d32f2f;
+    background: #fff0ee;
+    border-radius: 4px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.2rem;
+  }
+  .profileSuccess {
+    color: #388e3c;
+    background: #e6f9ea;
+    border-radius: 4px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.2rem;
+  }
+  
+  @media (max-width: 600px) {
+    .profileFormCard, .bmiCard {
+      padding: 1rem;
+      max-width: 98vw;
+    }
+    .profilePhotoEdit {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .profilePhoto, .profilePhotoPlaceholder, .profilePhotoContainer {
+      width: 80px;
+      height: 80px;
+      font-size: 1.5rem;
+    }
+    .profilePhotoPlaceholder {
+      width: 80px;
+      height: 80px;
+      font-size: 0.9rem;
+      padding: 0 4px;
+    }
+  }
+  
+  .settingsDivider {
+    border: none;
+    border-top: 1.5px solid #f0f0f0;
+    margin: 1.5rem 0 1rem 0;
+    width: 100%;
+  }
+  
+  .settingsUnified {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 2rem 1.5rem;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    font-family: inherit;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.2s both;
+  }
+  
+  .buttonRow {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  @media (max-width: 600px) {
+    .settingsUnified {
+      padding: 1rem 0.5rem;
+      max-width: 98vw;
+    }
+    .buttonRow {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+  
+  .streakInfo {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    font-family: inherit;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.25s both;
+  }
+  
+  .streakInputRow {
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .streakGrid {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .streakDayLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .streakCheckbox {
+    display: none;
+  }
+  
+  .streakDay, .streakDayActive {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 500;
+    background: #f5f5f5;
+    color: #666;
+    margin-top: 0.25rem;
+    border: 2px solid transparent;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+  }
+  
+  .streakDayActive {
+    background: #FF6B35;
+    color: #fff;
+    border: 2px solid #FF6B35;
+  }
+  
+  .streakValue {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #FF6B35;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  @media (max-width: 600px) {
+    .streakInfo {
+      padding: 0;
+      max-width: 98vw;
+    }
+    .streakGrid {
+      gap: 0.25rem;
+    }
+    .streakDay, .streakDayActive {
+      width: 28px;
+      height: 28px;
+      font-size: 0.85rem;
+    }
+  }
+  
+  .streakHistory {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  .streakHistoryCount {
+    color: #FF6B35;
+    font-weight: 600;
+  }
+  
+  .streakCheck {
+    position: absolute;
+    bottom: 2px;
+    right: 6px;
+    font-size: 1rem;
+    color: #fff;
+  }
+  .resetStreakButton {
+    background: #FF6B35;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 4px rgba(255,107,53,0.08);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.3s both;
+  }
+  .resetStreakButton:hover {
+    background: #FF8C42;
+    box-shadow: 0 4px 12px rgba(255,107,53,0.13);
+    transform: translateY(-2px) scale(1.03);
+  }
+  
+  .resetStreakButton:active {
+    transform: scale(0.96);
+    box-shadow: 0 1px 2px rgba(255,107,53,0.10);
+  }
+  
+  .progressChartLabel {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #FF6B35;
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+  .progressChart {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.18s both;
+  }
+  .progressBarDay {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .progressBarDayLabel {
+    width: 40px;
+    text-align: right;
+    font-size: 1rem;
+    color: #666;
+    font-weight: 500;
+  }
+  .progressBarTrack {
+    flex: 1;
+    background: #f5f5f5;
+    border-radius: 8px;
+    height: 22px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .progressBarFill {
+    background: #FF6B35;
+    height: 100%;
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transition: width 0.4s cubic-bezier(.4,2,.6,1);
+    min-width: 0;
+    position: relative;
+  }
+  .progressBarPercent {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0 10px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  @media (max-width: 600px) {
+    .progressChart {
+      max-width: 98vw;
+      gap: 0.5rem;
+    }
+    .progressBarDayLabel {
+      width: 28px;
+      font-size: 0.9rem;
+    }
+    .progressBarTrack {
+      height: 16px;
+    }
+    .progressBarPercent {
+      font-size: 0.8rem;
+      padding: 0 4px;
+    }
+  }
+  
+  .nutritionProgressLabel {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #FF6B35;
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+  .nutritionProgressGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 1.5rem auto;
+    justify-items: center;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.25s both;
+  }
+  .nutritionCircleWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nutritionCircleLabel {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  .nutritionCircleOuter {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    min-height: 72px;
+    max-width: 72px;
+    max-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nutritionCircleSvg {
+    width: 72px;
+    height: 72px;
+    transform: rotate(-90deg);
+  }
+  .nutritionCircleTrack {
+    stroke: #eee;
+  }
+  .nutritionCircleBar {
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.7s cubic-bezier(.4,2,.6,1);
+  }
+  .nutritionCirclePercent {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: inherit;
+  }
+  @media (max-width: 900px) {
+    .nutritionProgressGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .nutritionCircleOuter, .nutritionCircleSvg {
+      width: 64px;
+      height: 64px;
+      min-width: 64px;
+      min-height: 64px;
+      max-width: 64px;
+      max-height: 64px;
+    }
+  }
+  @media (max-width: 600px) {
+    .nutritionProgressGrid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      max-width: 98vw;
+    }
+    .nutritionCircleOuter, .nutritionCircleSvg {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      min-height: 56px;
+      max-width: 56px;
+      max-height: 56px;
+    }
+    .nutritionCirclePercent {
+      font-size: 1rem;
+    }
+  }
+  
+  .nutritionTabGrid {
+    display: flex;
+    flex-direction: row;
+    gap: 2.5rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto 0 auto;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.25s both;
+  }
+  .nutritionTabCircleWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .nutritionTabCircleOuter {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    min-height: 72px;
+    max-width: 72px;
+    max-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nutritionTabCircleSvg {
+    width: 72px;
+    height: 72px;
+    transform: rotate(-90deg);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .nutritionTabCircleTrack {
+    stroke: #eee;
+    stroke-width: 4;
+  }
+  .nutritionTabCircleBar {
+    stroke: #FF6B35;
+    stroke-width: 4;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.7s cubic-bezier(.4,2,.6,1);
+  }
+  .nutritionTabCircleText {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-family: inherit;
+  }
+  .nutritionTabCircleName {
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 0.1rem;
+    font-weight: 400;
+  }
+  .nutritionTabCirclePercent {
+    font-size: 1.1rem;
+    color: #FF6B35;
+    font-weight: 400;
+  }
+  @media (max-width: 900px) {
+    .nutritionTabGrid {
+      gap: 1.2rem;
+      max-width: 98vw;
+    }
+    .nutritionTabCircleOuter, .nutritionTabCircleSvg {
+      width: 64px;
+      height: 64px;
+      min-width: 64px;
+      min-height: 64px;
+      max-width: 64px;
+      max-height: 64px;
+    }
+  }
+  @media (max-width: 600px) {
+    .nutritionTabGrid {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 98vw;
+      justify-content: center;
+    }
+    .nutritionTabCircleOuter, .nutritionTabCircleSvg {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      min-height: 56px;
+      max-width: 56px;
+      max-height: 56px;
+    }
+    .nutritionTabCircleName {
+      font-size: 0.85rem;
+    }
+    .nutritionTabCirclePercent {
+      font-size: 1rem;
+    }
+  }
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

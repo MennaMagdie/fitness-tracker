@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import "../components/Registration/Signup.css";
+import React from 'react';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
