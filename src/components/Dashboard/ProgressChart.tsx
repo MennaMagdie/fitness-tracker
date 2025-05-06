@@ -1,22 +1,17 @@
-
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { useAppContext } from "../../context/AppContext";
+import { addProgress } from "../../services/api";
 
-// Sample workout data for the chart
-const workoutData = [
-  { day: "Mon", calories: 320, duration: 30, intensity: 7 },
-  { day: "Tue", calories: 450, duration: 45, intensity: 8 },
-  { day: "Wed", calories: 280, duration: 25, intensity: 6 },
-  { day: "Thu", calories: 520, duration: 50, intensity: 9 },
-  { day: "Fri", calories: 400, duration: 40, intensity: 7 },
-  { day: "Sat", calories: 600, duration: 60, intensity: 8 },
-  { day: "Sun", calories: 350, duration: 35, intensity: 7 },
-];
+type MetricType = "calories" | "duration" | "intensity";
 
 export const ProgressChart = () => {
-  const [activeMetric, setActiveMetric] = useState<"calories" | "duration" | "intensity">("calories");
+  const { state, dispatch } = useAppContext();
+  const [activeMetric, setActiveMetric] = useState<MetricType>("calories");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleMetricChange = (metric: "calories" | "duration" | "intensity") => {
+  const handleMetricChange = (metric: MetricType) => {
     setActiveMetric(metric);
   };
 
@@ -46,8 +41,53 @@ export const ProgressChart = () => {
     }
   };
 
+  // Transform progress data for the chart
+  const chartData = useMemo(() => {
+    const workoutEntries = state.progress.filter(entry => entry.type === 'workout');
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    
+    return days.map(day => {
+      const dayEntry = workoutEntries.find(entry => {
+        const entryDate = new Date(entry.date);
+        return entryDate.toLocaleDateString('en-US', { weekday: 'short' }) === day;
+      });
+
+      return {
+        day,
+        calories: dayEntry?.value || 0,
+        duration: dayEntry?.duration || 0,
+        intensity: dayEntry?.workoutType === 'cardio' ? 8 : 
+                  dayEntry?.workoutType === 'strength' ? 7 :
+                  dayEntry?.workoutType === 'flexibility' ? 5 : 6
+      };
+    });
+  }, [state.progress]);
+
+  const handleAddWorkout = async (data: {
+    type: 'workout';
+    value: number;
+    duration: number;
+    workoutType: 'cardio' | 'strength' | 'flexibility' | 'other';
+  }) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await addProgress({
+        ...data,
+        date: new Date().toISOString()
+      });
+      dispatch({ type: 'ADD_PROGRESS', payload: response });
+    } catch (err) {
+      setError('Failed to add workout. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="progress-chart-container">
+      {error && <div className="error-message">{error}</div>}
+      
       <div className="chart-filters">
         <button 
           className={`chart-filter-btn ${activeMetric === "calories" ? "active" : ""}`}
@@ -72,7 +112,7 @@ export const ProgressChart = () => {
       <div className="chart-wrapper">
         <ResponsiveContainer width="100%" height={300}>
           <LineChart
-            data={workoutData}
+            data={chartData}
             margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />

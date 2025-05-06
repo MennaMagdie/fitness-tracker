@@ -14,27 +14,26 @@
   
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #f8f9fa;
     line-height: 1.5;
+    color: #2c3e50;
   }
   
   /* Container with improved responsive behavior */
   .profileContainer {
     width: 100%;
-    max-width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
-    padding-top: 4.5rem; /* Increased to account for navbar height */
-    padding-bottom: 2rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    padding: 2rem;
+    padding-top: 5rem;
     min-height: 100vh;
     position: relative;
-    background-color: #f5f5f5;
+    background-color: #f8f9fa;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1);
+    animation: fadeInUp 0.6s ease-out;
   }
   
   /* Profile header with improved spacing */
@@ -42,210 +41,312 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    gap: 1rem;
+    margin-bottom: 2rem;
     width: 100%;
     text-align: center;
     padding: 0 1rem;
-    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.1s both;
+    animation: fadeInUp 0.6s ease-out 0.1s both;
   }
   
-  /* Responsive profile photo container */
+  /* Profile photo container styling */
   .profilePhotoContainer {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 1.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    border: 3px solid #fff;
+    background: #f8f9fa;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 120px;
-    height: 120px;
-    margin-bottom: 15px;
-    position: relative;
+  }
+  
+  .profilePhotoContainer:hover {
+    transform: scale(1.02);
   }
   
   .profilePhoto {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    background: #FFA500;
+    object-position: center;
+    border-radius: 50%;
+  }
+  
+  .profilePhotoPlaceholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #FF6B35, #FF8C42);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2.5rem;
     color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border: 2.5px solid #FF6B35;
-    position: relative;
-    overflow: hidden;
+    border-radius: 50%;
   }
   
-  .profilePhotoPlaceholder {
+  /* Profile photo edit section */
+  .profilePhotoEdit {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .profilePhotoPreview {
     width: 120px;
     height: 120px;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    border: 3px solid #FF6B35;
     background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    color: #888;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border: 2.5px solid #FF6B35;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    padding: 0 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
   }
   
-  @media (min-width: 768px) {
-    .profilePhotoContainer {
-      width: 7.5rem;
-      height: 7.5rem;
-    }
+  .profilePhotoPreview:hover {
+    transform: scale(1.02);
   }
   
-  @media (min-width: 992px) {
-    .profilePhotoContainer {
-      width: 9rem;
-      height: 9rem;
-    }
-  }
-  
-  .profilePhoto:hover {
-    opacity: 0.8;
-  }
-  
+  /* Change photo button styling */
   .uploadButton {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
+    background: #FF6B35;
     color: white;
     border: none;
-    padding: 0.25rem 0.5rem;
-    border-radius: 5px;
-    font-size: 0.75rem;
+    border-radius: 8px;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s;
-    white-space: nowrap;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 140px;
+    justify-content: center;
+    flex-shrink: 0;
   }
   
-  .profilePhotoContainer:hover .uploadButton {
-    opacity: 1;
+  .uploadButton:hover {
+    background: #FF8C42;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 107, 53, 0.3);
   }
   
-  /* Responsive text sizing */
+  .uploadButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
+  }
+  
+  .uploadButton::before {
+    content: '📷';
+    font-size: 1.2rem;
+  }
+  
+  /* File input styling */
+  .fileInput {
+    display: none;
+  }
+  
+  /* Image preview container */
+  .imagePreviewContainer {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #FF6B35;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+  
+  .imagePreviewContainer:hover {
+    transform: scale(1.02);
+  }
+  
+  .imagePreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+  }
+  
+  /* User info styling */
   .userName {
-    font-size: 1.25rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2c3e50;
     margin: 0;
-    color: #333;
-  }
-  
-  @media (min-width: 768px) {
-    .userName {
-      font-size: 1.5rem;
-    }
-  }
-  
-  @media (min-width: 992px) {
-    .userName {
-      font-size: 1.75rem;
-    }
   }
   
   .userEmail {
     color: #666;
-    margin: 0.25rem 0 0.75rem;
-    font-size: 0.875rem;
-    word-break: break-word;
+    font-size: 1rem;
+    margin: 0.25rem 0;
   }
   
-  @media (min-width: 768px) {
-    .userEmail {
-      font-size: 1rem;
-    }
-  }
-  
-  
-  
-  /* Responsive tabs */
+  /* Tab buttons styling */
   .tabs {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
     justify-content: center;
-    margin-bottom: 1rem;
-    padding: 0 0.5rem;
+    gap: 1rem;
+    margin-bottom: 2rem;
     width: 100%;
-    max-width: 100%;
+    max-width: 1200px;
+    padding: 0 1rem;
   }
   
   .tab {
-    padding: 0.5rem 0.75rem;
-    border-radius: 5px;
-    background: white;
-    border: 1px solid #ddd;
+    background: #fff;
+    color: #666;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s;
-    text-align: center;
-    flex: 1 0 auto;
-    min-width: 4.5rem;
-    max-width: 9rem;
-    font-size: 0.875rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    min-width: 120px;
+    position: relative;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  }
+  
+  .tab:hover {
+    background: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .tab.active {
-    color: #FF6B35;
-    border-bottom-color: #FF6B35;
+    background: #FF6B35;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
   }
   
-  /* Responsive tab content */
-  .tabContent {
-    background: white;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 95%;
-    overflow-x: hidden;
-    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.15s both;
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
   }
   
-  @media (min-width: 768px) {
-    .tabContent {
-      padding: 1.5rem;
-      max-width: 90%;
-    }
-  }
-  
-  /* Settings styles */
+  /* Profile Settings section styling */
   .settings {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.2s both;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
   }
   
-  .settingItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+  /* Tab content container */
+  .tabContent {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* Form fields styling */
+  .profileFormRow {
+    margin-bottom: 1.5rem;
+  }
+  
+  .profileFormRow label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+  }
+  
+  .profileInput {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+  }
+  
+  .profileInput:focus {
+    border-color: #FF6B35;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    outline: none;
+  }
+  
+  .profileInput::placeholder {
+    color: #a0aec0;
+  }
+  
+  /* Button styling */
+  .saveProfileButton {
+    background: #FF6B35;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
+  }
+  
+  .saveProfileButton:hover {
+    background: #FF8C42;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 107, 53, 0.3);
+  }
+  
+  .saveProfileButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
+  }
+  
+  .saveProfileButton:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
   
   /* Switch styling */
   .switch {
     position: relative;
     display: inline-block;
-    width: 3rem;
-    height: 1.5rem;
-    flex-shrink: 0;
+    width: 3.5rem;
+    height: 1.75rem;
   }
   
   .switch input {
@@ -261,21 +362,22 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #e2e8f0;
     transition: .4s;
-    border-radius: 1.5rem;
+    border-radius: 1.75rem;
   }
   
   .slider:before {
     position: absolute;
     content: "";
-    height: 1rem;
-    width: 1rem;
+    height: 1.25rem;
+    width: 1.25rem;
     left: 0.25rem;
     bottom: 0.25rem;
     background-color: white;
     transition: .4s;
     border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   input:checked + .slider {
@@ -283,385 +385,143 @@
   }
   
   input:checked + .slider:before {
-    transform: translateX(1.5rem);
+    transform: translateX(1.75rem);
   }
   
-  /* Info sections */
-  .bmiInfo, .streakInfo, .progressInfo, .nutritionInfo {
-    text-align: center;
-    width: 100%;
-  }
-  
-  /* BMI section */
-  .bmiInputs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    margin: 1rem 0;
-    width: 100%;
-  }
-  
-  .inputGroup {
-    flex: 1 1 100%;
-    min-width: 0;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  @media (min-width: 576px) {
-    .inputGroup {
-      flex: 1 1 45%;
-      max-width: 45%;
-    }
-  }
-  
-  @media (min-width: 768px) {
-    .inputGroup {
-      max-width: 40%;
-    }
-  }
-  
-  @media (min-width: 992px) {
-    .inputGroup {
-      max-width: 250px;
-    }
-  }
-  
-  .inputGroup label {
-    color: #666;
-    font-size: 0.875rem;
-    margin-bottom: 0.25rem;
-  }
-  
-  .inputGroup input {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    text-align: center;
-  }
-  
-  .inputGroup input:disabled {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-  }
-  
-  /* Responsive value displays */
-  .bmiValue {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #FF6B35;
-    margin: 1rem 0;
-  }
-  
-  @media (min-width: 768px) {
-    .bmiValue {
-      font-size: 3rem;
-    }
-  }
-  
-  .bmiCategory {
-    font-size: 1rem;
-    color: #666;
-  }
-  
-  @media (min-width: 768px) {
-    .bmiCategory {
-      font-size: 1.125rem;
-    }
-  }
-  
-  .streakValue {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #FF6B35;
-    margin: 1rem 0;
-  }
-  
-  @media (min-width: 768px) {
-    .streakValue {
-      font-size: 2.25rem;
-    }
-  }
-  
-  /* Calendar grid */
-  .calendarGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
-    gap: 0.5rem;
-    max-width: 300px;
-    margin: 1rem auto;
-    width: 100%;
-  }
-  
-  @media (min-width: 576px) {
-    .calendarGrid {
-      grid-template-columns: repeat(7, 1fr);
-      max-width: 350px;
-    }
-  }
-  
-  @media (min-width: 768px) {
-    .calendarGrid {
-      max-width: 400px;
-      gap: 0.75rem;
-    }
-  }
-  
-  .calendarDay {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f5f5f5;
-    border-radius: 50%;
-    font-size: 0.875rem;
-    margin: 0 auto;
-  }
-  
-  /* Progress bar */
-  .progressBar {
-    width: 100%;
-    max-width: 500px;
-    margin: 1rem auto;
-    height: 1rem;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  .progressFill {
-    height: 100%;
-    background-color: #FF6B35;
-    border-radius: 10px;
-    transition: width 0.3s ease;
-  }
-  
-  .progressValue {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #FF6B35;
-  }
-  
-  /* Nutrition grid */
-  .nutritionGrid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 0.75rem;
-    margin-top: 1rem;
-    width: 100%;
-  }
-  
-  @media (min-width: 576px) {
-    .nutritionGrid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  
-  @media (min-width: 992px) {
-    .nutritionGrid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-  
-  .nutritionItem {
-    background: #f5f5f5;
-    padding: 0.75rem;
-    border-radius: 10px;
-    text-align: center;
-  }
-  
-  .nutritionItem span:first-child {
-    display: block;
-    color: #666;
-    margin-bottom: 0.25rem;
-    font-size: 0.875rem;
-  }
-  
-  .nutritionItem input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    text-align: center;
-  }
-  
-  .nutritionItem input:disabled {
-    background-color: #fff;
-    cursor: not-allowed;
-  }
-  
-  /* Logout button */
-  .logoutButton {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #FF6B35;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-    margin-top: 1rem;
-    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.3s both;
-  }
-  
-  .logoutButton:hover {
-    background-color: #FF8C42;
-  }
-  
-  .logoutButton:active {
-    transform: scale(0.96);
-    box-shadow: 0 1px 2px rgba(255,107,53,0.10);
-  }
-  
-  /* Name input */
-  .nameInputContainer {
-    margin: 0.5rem 0;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .nameInput {
-    font-size: 1.25rem;
-    font-weight: bold;
-    text-align: center;
-    border: 2px solid #FF6B35;
-    border-radius: 5px;
-    padding: 0.25rem 0.5rem;
-    width: 100%;
-    background-color: white;
-    color: #333;
-  }
-  
-  .nameInput:focus {
-    outline: none;
-    border-color: #FF8C42;
-    box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
-  }
-  
-  /* Navbar styling */
-  .navbar {
+  /* Setting items styling */
+  .settingItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem ;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    position: sticky; /* Keep sticky positioning as in your code */
-    top: 0;
-    z-index: 10;
-    width: 100%; /* Full width */
-    box-sizing: border-box; /* Include padding in width calculation */
-    left: 0; /* Ensure left alignment */
-    right: 0; /* Ensure right alignment */
-    margin: 0; /* No margins */
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
   }
   
-  /* Logo styling */
-  .logo {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #FF6B35;
-    text-decoration: none;
-    margin-right: 1rem;
-    white-space: nowrap;
+  .settingItem:last-child {
+    border-bottom: none;
   }
   
-  /* Navigation links */
-  .nav-links {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    flex-wrap: wrap;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    flex: 1;
-    justify-content: flex-end;
+  .settingItem span {
+    font-size: 1rem;
+    color: #4a5568;
   }
   
-  .nav-links a {
-    text-decoration: none;
-    color: #333;
-    padding: 0.5rem 0.75rem;
-    transition: all 0.3s ease;
+  /* Error and success messages */
+  .profileError {
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    color: #c53030;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
     font-size: 0.875rem;
-    border-radius: 4px;
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
-  .nav-links a:hover,
-  .nav-links a.active {
-    color: #FF6B35;
-    background-color: rgba(255, 107, 53, 0.1);
+  .profileSuccess {
+    background: #f0fff4;
+    border: 1px solid #9ae6b4;
+    color: #2f855a;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
-  /* Responsive menu toggle for mobile */
-  .menu-toggle {
-    display: none;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: #333;
-    padding: 0.5rem;
-    margin-left: auto;
-  }
-  
+  /* Responsive adjustments */
   @media (max-width: 768px) {
-    .navbar {
-      padding: 0.5rem;
-      height: auto;
-      min-height: 60px;
-    }
-    
-    .menu-toggle {
-      display: block;
-    }
-    
-    .nav-links {
-      width: 100%;
-      flex-direction: column;
-      align-items: flex-start;
+    .tabs {
+      flex-wrap: wrap;
       gap: 0.5rem;
-      padding: 0.5rem 0;
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background-color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    .nav-links.active {
-      display: flex;
+    .tab {
+      flex: 1 1 calc(50% - 0.5rem);
+      min-width: 0;
+      padding: 0.875rem 1rem;
+      font-size: 0.875rem;
     }
     
-    .nav-links a {
+    .settings {
+      padding: 1.5rem;
+      margin: 0 1rem;
+    }
+    
+    .profilePhotoEdit {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+    }
+    
+    .profilePhotoPreview,
+    .imagePreviewContainer {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .uploadButton {
       width: 100%;
-      padding: 0.75rem 1rem;
+      max-width: 200px;
     }
   }
   
-  @media (min-width: 768px) {
-    .navbar {
-      padding: 0.75rem 2rem;
+  @media (max-width: 480px) {
+    .tabs {
+      flex-direction: column;
     }
     
-    .nav-links {
-      gap: 1.5rem;
-      justify-content: flex-end;
+    .tab {
+      width: 100%;
     }
     
-    .nav-links a {
-      font-size: 1rem;
+    .settings {
+      padding: 1rem;
+      margin: 0 0.5rem;
+    }
+    
+    .profileFormHeading {
+      font-size: 1.25rem;
+    }
+    
+    .profileInput {
+      padding: 0.625rem 0.875rem;
+    }
+    
+    .saveProfileButton {
+      padding: 0.75rem 1.25rem;
+    }
+    
+    .profilePhotoEdit {
+      padding: 1rem;
+    }
+    
+    .profilePhotoPreview,
+    .imagePreviewContainer {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .uploadButton {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+    }
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
   
@@ -1193,123 +1053,448 @@
   }
   
   .nutritionTabGrid {
-    display: flex;
-    flex-direction: row;
-    gap: 2.5rem;
-    width: 100%;
-    max-width: 600px;
-    margin: 2rem auto 0 auto;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.25s both;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
   }
+  
   .nutritionTabCircleWrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 1rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
   }
+  
+  .nutritionTabCircleWrapper:hover {
+    transform: translateY(-2px);
+  }
+  
   .nutritionTabCircleOuter {
     position: relative;
-    width: 72px;
-    height: 72px;
-    min-width: 72px;
-    min-height: 72px;
-    max-width: 72px;
-    max-height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 120px;
+    height: 120px;
   }
+  
   .nutritionTabCircleSvg {
-    width: 72px;
-    height: 72px;
     transform: rotate(-90deg);
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  .nutritionTabCircleTrack {
-    stroke: #eee;
-    stroke-width: 4;
-  }
-  .nutritionTabCircleBar {
-    stroke: #FF6B35;
-    stroke-width: 4;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.7s cubic-bezier(.4,2,.6,1);
-  }
-  .nutritionTabCircleText {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     width: 100%;
     height: 100%;
-    text-align: center;
-    font-family: inherit;
   }
-  .nutritionTabCircleName {
-    font-size: 0.95rem;
-    color: #333;
-    margin-bottom: 0.1rem;
-    font-weight: 400;
+  
+  .nutritionTabCircleTrack {
+    stroke: #e0e0e0;
+    fill: none;
   }
+  
+  .nutritionTabCircleBar {
+    stroke: #FF6B35;
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.7s ease;
+  }
+  
   .nutritionTabCirclePercent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .nutritionTabCircleLabel {
+    text-align: center;
     font-size: 1.1rem;
-    color: #FF6B35;
-    font-weight: 400;
+    color: #666;
+    font-weight: 500;
   }
-  @media (max-width: 900px) {
-    .nutritionTabGrid {
-      gap: 1.2rem;
-      max-width: 98vw;
-    }
-    .nutritionTabCircleOuter, .nutritionTabCircleSvg {
-      width: 64px;
-      height: 64px;
-      min-width: 64px;
-      min-height: 64px;
-      max-width: 64px;
-      max-height: 64px;
-    }
+  
+  .nutritionTabCircleValue {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 0.5rem;
   }
-  @media (max-width: 600px) {
+
+  @media (max-width: 768px) {
     .nutritionTabGrid {
-      flex-direction: row;
-      flex-wrap: wrap;
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
-      max-width: 98vw;
-      justify-content: center;
+      padding: 1rem;
     }
-    .nutritionTabCircleOuter, .nutritionTabCircleSvg {
-      width: 56px;
-      height: 56px;
-      min-width: 56px;
-      min-height: 56px;
-      max-width: 56px;
-      max-height: 56px;
+
+    .nutritionTabCircleOuter {
+      width: 100px;
+      height: 100px;
     }
-    .nutritionTabCircleName {
-      font-size: 0.85rem;
-    }
+
     .nutritionTabCirclePercent {
+      font-size: 1.2rem;
+    }
+
+    .nutritionTabCircleLabel {
       font-size: 1rem;
     }
+  }
+
+  @media (max-width: 480px) {
+    .nutritionTabGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .nutritionTabContent {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loadingSpinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 1.1rem;
+    padding: 2rem;
+  }
+
+  .loadingSpinner::after {
+    content: '';
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #FF6B35;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .errorMessage {
+    background-color: #fff3f3;
+    border: 1px solid #ffcdd2;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    color: #d32f2f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .retryButton {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+  }
+
+  .retryButton:hover {
+    background-color: #b71c1c;
+  }
+
+  .profileForm.loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .profileError {
+    background-color: #fff3f3;
+    border: 1px solid #ffcdd2;
+    border-radius: 4px;
+    padding: 12px;
+    margin-top: 16px;
+    color: #d32f2f;
+    font-size: 14px;
+  }
+
+  .profileSuccess {
+    background-color: #f1f8e9;
+    border: 1px solid #c5e1a5;
+    border-radius: 4px;
+    padding: 12px;
+    margin-top: 16px;
+    color: #33691e;
+    font-size: 14px;
+  }
+
+  .saveProfileButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
 @keyframes fadeInUp {
   0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.profileForm {
+  position: relative;
+}
+
+.profileForm.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.profileForm.loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #FF6B35;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 2;
+}
+
+.profileInput:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.profileSuccess {
+  color: #388e3c;
+  background: #e6f9ea;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.profileSuccess::before {
+  content: '✓';
+  font-weight: bold;
+}
+
+.profileError {
+  color: #d32f2f;
+  background: #fff0ee;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.profileError::before {
+  content: '!';
+  font-weight: bold;
+  width: 1.2rem;
+  height: 1.2rem;
+  background: #d32f2f;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Settings section styling */
+.settingsSection {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Nutrition grid layout */
+.nutritionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Form actions */
+.formActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.logoutButton {
+  background: #fff;
+  color: #FF6B35;
+  border: 2px solid #FF6B35;
+  border-radius: 8px;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1;
+  min-width: 120px;
+  transition: all 0.3s ease;
+}
+
+.logoutButton:hover {
+  background: #fff5f5;
+  transform: translateY(-1px);
+}
+
+.logoutButton:active {
+  transform: translateY(0);
+}
+
+/* Status message icons */
+.errorIcon,
+.successIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+
+.errorIcon {
+  background: #c53030;
+  color: white;
+}
+
+.successIcon {
+  background: #2f855a;
+  color: white;
+}
+
+/* Loading state */
+.profileForm.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.profileForm.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.profileForm.loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #FF6B35;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 2;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .settingsSection {
+    padding: 1.25rem;
+  }
+
+  .nutritionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .saveProfileButton,
+  .logoutButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .settingsSection {
+    padding: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 1rem;
   }
 }

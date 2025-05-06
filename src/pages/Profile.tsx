@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Profile.module.css';
 import { Navbar } from '../components/Home/Navbar';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
+import Navbar from '../components/Navbar';
 import Footer from '../components/Landing/Footer';
+import styles from './Profile.module.css';
+import { getTodayNutrition, getUserProfile, updateUserProfile } from '../services/api';
 
 interface UserData {
   name: string;
@@ -21,22 +26,41 @@ interface UserData {
     fat: number;
   };
   age?: number;
+  dailyNutritionGoals?: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+  };
 }
 
 type BooleanSettingKey = 'reminders' | 'notifications' | 'darkMode' | 'emailUpdates';
 
 const Profile: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('settings');
+  const { state, dispatch } = useAppContext();
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Get active tab from URL query parameter
+  const getInitialTab = () => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    return tab || 'settings';
+  };
+
+  const [activeTab, setActiveTab] = useState(getInitialTab());
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<UserData>({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
+    name: '',
+    email: '',
     profilePhoto: 'https://via.placeholder.com/150',
     height: 0,
     weight: 0,
     bmi: 0,
     bmiCategory: 'Not calculated',
-    streak: 7,
-    progress: 75,
+    streak: 0,
+    progress: 0,
     nutrition: {
       calories: 0,
       protein: 0,
@@ -46,7 +70,6 @@ const Profile: React.FC = () => {
   });
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
   const [settings, setSettings] = useState({
     reminders: true,
     notifications: true,
@@ -62,6 +85,14 @@ const Profile: React.FC = () => {
     email: userData.email,
     profilePhoto: userData.profilePhoto,
   });
+
+  const [nutritionGoals, setNutritionGoals] = useState({
+    calories: userData.dailyNutritionGoals?.calories || 2000,
+    protein: userData.dailyNutritionGoals?.protein || 150,
+    carbs: userData.dailyNutritionGoals?.carbs || 250,
+    fat: userData.dailyNutritionGoals?.fat || 70
+  });
+
   const [profileError, setProfileError] = useState('');
   const [profileSuccess, setProfileSuccess] = useState(false);
 
@@ -118,14 +149,45 @@ const Profile: React.FC = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Check if file is an image
+      if (!file.type.startsWith('image/')) {
+        setProfileError('Please select an image file');
+        return;
+      }
+
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setProfileError('Image size should be less than 5MB');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
+        const imageUrl = reader.result as string;
+        // Update both states to ensure consistency
         setUserData(prev => ({
           ...prev,
-          profilePhoto: reader.result as string
+          profilePhoto: imageUrl
+        }));
+        setProfileForm(prev => ({
+          ...prev,
+          profilePhoto: imageUrl
         }));
       };
+      reader.onerror = () => {
+        setProfileError('Error reading the image file');
+      };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleProfileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, files } = e.target;
+    
+    if (name === 'profilePhoto' && files && files[0]) {
+      handleImageUpload(e);
+    } else {
+      setProfileForm(prev => ({ ...prev, [name]: value }));
     }
   };
 
@@ -190,27 +252,61 @@ const Profile: React.FC = () => {
     setSettings(prev => ({ ...prev, language: e.target.value }));
   };
 
-  const handleProfileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = e.target;
-    if (name === 'profilePhoto' && files && files[0]) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileForm(prev => ({ ...prev, profilePhoto: reader.result as string }));
-      };
-      reader.readAsDataURL(files[0]);
-    } else {
-      setProfileForm(prev => ({ ...prev, [name]: value }));
-    }
+  const handleNutritionGoalsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNutritionGoals(prev => ({
+      ...prev,
+      [name]: Number(value)
+    }));
   };
 
-  const validateProfileForm = () => {
-    if (!profileForm.name.trim()) return 'Name is required.';
-    if (!profileForm.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) return 'Invalid email address.';
-    if (!profileForm.age || isNaN(Number(profileForm.age)) || Number(profileForm.age) <= 0) return 'Age must be a positive number.';
-    return '';
-  };
+  // Fetch user profile data when component mounts
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const profileData = await getUserProfile();
+        if (!profileData) {
+          throw new Error('No profile data received');
+        }
 
-  const handleProfileSave = (e: React.FormEvent) => {
+        setUserData(prev => ({
+          ...prev,
+          ...profileData,
+          profilePhoto: profileData.profilePhoto || prev.profilePhoto
+        }));
+        
+        // Update profile form with fetched data
+        setProfileForm({
+          name: profileData.name || '',
+          age: profileData.age || '',
+          email: profileData.email || '',
+          profilePhoto: profileData.profilePhoto || 'https://via.placeholder.com/150'
+        });
+
+        // Update nutrition goals if available
+        if (profileData.dailyNutritionGoals) {
+          setNutritionGoals(profileData.dailyNutritionGoals);
+        }
+      } catch (err) {
+        console.error('Failed to fetch user profile:', err);
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load profile data. Please try again.';
+        setError(errorMessage);
+        
+        // If unauthorized, redirect to login
+        if (err instanceof Error && err.message.includes('401')) {
+          navigate('/login');
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, [navigate]);
+
+  const handleProfileSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const error = validateProfileForm();
     if (error) {
@@ -218,17 +314,55 @@ const Profile: React.FC = () => {
       setProfileSuccess(false);
       return;
     }
-    setUserData(prev => ({
-      ...prev,
-      name: profileForm.name,
-      age: Number(profileForm.age),
-      email: profileForm.email,
-      profilePhoto: profileForm.profilePhoto,
-    }));
+
+    setIsLoading(true);
     setProfileError('');
-    setProfileSuccess(true);
-    setTimeout(() => setProfileSuccess(false), 2000);
-    console.log('Profile updated:', profileForm);
+    
+    try {
+      const updatedData = {
+        name: profileForm.name,
+        age: Number(profileForm.age),
+        email: profileForm.email,
+        profilePhoto: profileForm.profilePhoto,
+        dailyNutritionGoals: nutritionGoals
+      };
+
+      // Update user data in backend
+      const response = await updateUserProfile(updatedData);
+      
+      if (!response) {
+        throw new Error('No response received from server');
+      }
+
+      // Update user data in state
+      setUserData(prev => ({
+        ...prev,
+        ...response
+      }));
+
+      // Update global context
+      dispatch({
+        type: 'SET_USER_DATA',
+        payload: {
+          ...state.userData,
+          ...response
+        }
+      });
+
+      setProfileSuccess(true);
+      setTimeout(() => setProfileSuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to update profile:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update profile. Please try again.';
+      setProfileError(errorMessage);
+      
+      // If unauthorized, redirect to login
+      if (err instanceof Error && err.message.includes('401')) {
+        navigate('/login');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleBmiInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -269,21 +403,75 @@ const Profile: React.FC = () => {
   const getCompletionPercent = (entry: {completed: number, total: number}) =>
     entry.total === 0 ? 0 : Math.round((entry.completed / entry.total) * 100);
 
-  // Mock nutrition data for the Nutrition tab
-  const nutritionGoals = {
-    calories: 2000,
-    protein: 150,
-    carbs: 250,
-    fat: 70,
+  // Remove the duplicate nutritionIntake since we're using todayIntake
+  const [todayIntake, setTodayIntake] = useState({
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0
+  });
+
+  // Update URL when tab changes
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    navigate(`/profile?tab=${tab}`, { replace: true });
   };
-  const nutritionIntake = {
-    calories: 1200,
-    protein: 80,
-    carbs: 180,
-    fat: 40,
+
+  // Fetch nutrition data when component mounts and when tab changes
+  useEffect(() => {
+    const fetchNutritionData = async () => {
+      if (activeTab === 'nutrition') {
+        setIsLoading(true);
+        setError(null);
+        try {
+          const data = await getTodayNutrition();
+          console.log('Fetched nutrition data:', data);
+          
+          // Update today's intake with the totals from the API
+          setTodayIntake(data.totals || {
+            calories: 0,
+            protein: 0,
+            carbs: 0,
+            fat: 0
+          });
+
+          // If the API returns goals, update them in the context
+          if (data.goals && state.userData) {
+            dispatch({
+              type: 'SET_USER_DATA',
+              payload: {
+                ...state.userData,
+                dailyNutritionGoals: data.goals
+              }
+            });
+          }
+        } catch (error) {
+          console.error('Failed to fetch nutrition data:', error);
+          setError('Failed to load nutrition data. Please try again.');
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchNutritionData();
+  }, [activeTab, dispatch, state.userData]);
+
+  // Safe percentage calculation with proper type checking
+  const getNutritionPercent = (type: keyof typeof nutritionGoals) => {
+    const goal = state.userData?.dailyNutritionGoals?.[type] || 0;
+    const intake = todayIntake[type] || 0;
+    
+    if (!goal || goal === 0) return 0;
+    return Math.min(100, Math.round((intake / goal) * 100));
   };
-  const getNutritionPercent = (type: keyof typeof nutritionGoals) =>
-    Math.min(100, Math.round((nutritionIntake[type] / nutritionGoals[type]) * 100));
+
+  const validateProfileForm = () => {
+    if (!profileForm.name.trim()) return 'Name is required.';
+    if (!profileForm.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) return 'Invalid email address.';
+    if (!profileForm.age || isNaN(Number(profileForm.age)) || Number(profileForm.age) <= 0) return 'Age must be a positive number.';
+    return '';
+  };
 
   // Set active tab based on query parameter
   useEffect(() => {
@@ -298,67 +486,64 @@ const Profile: React.FC = () => {
     <>
       <Navbar />
       <div className={styles.profileContainer}>
+        {error && (
+          <div className={styles.errorMessage}>
+            {error}
+            <button 
+              className={styles.retryButton}
+              onClick={() => window.location.reload()}
+            >
+              Retry
+            </button>
+          </div>
+        )}
         <div className={styles.profileHeader}>
-          <div className={styles.profilePhotoContainer}>
-            {userData.profilePhoto && userData.profilePhoto !== 'https://via.placeholder.com/150' ? (
+          <div className={styles.imagePreviewContainer}>
+            {userData.profilePhoto ? (
               <img 
                 src={userData.profilePhoto} 
                 alt="Profile" 
-                className={styles.profilePhoto} 
+                className={styles.imagePreview} 
                 onClick={() => fileInputRef.current?.click()}
               />
             ) : (
               <div className={styles.profilePhotoPlaceholder} onClick={() => fileInputRef.current?.click()}>
-                Upload a photo
+                {userData.name ? userData.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2) : '👤'}
               </div>
             )}
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImageUpload}
-              accept="image/*"
-              style={{ display: 'none' }}
-            />
-            <button 
-              className={styles.uploadButton}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              Change Photo
-            </button>
           </div>
           <h1 className={styles.userName}>{userData.name}</h1>
           <p className={styles.userEmail}>{userData.email}</p>
-        
         </div>
 
         <div className={styles.tabs}>
           <button
             className={`${styles.tab} ${activeTab === 'settings' ? styles.active : ''}`}
-            onClick={() => setActiveTab('settings')}
+            onClick={() => handleTabChange('settings')}
           >
             Settings
           </button>
           <button
             className={`${styles.tab} ${activeTab === 'bmi' ? styles.active : ''}`}
-            onClick={() => setActiveTab('bmi')}
+            onClick={() => handleTabChange('bmi')}
           >
             BMI Info
           </button>
           <button
             className={`${styles.tab} ${activeTab === 'streak' ? styles.active : ''}`}
-            onClick={() => setActiveTab('streak')}
+            onClick={() => handleTabChange('streak')}
           >
             Streak
           </button>
           <button
             className={`${styles.tab} ${activeTab === 'progress' ? styles.active : ''}`}
-            onClick={() => setActiveTab('progress')}
+            onClick={() => handleTabChange('progress')}
           >
             Progress
           </button>
           <button
             className={`${styles.tab} ${activeTab === 'nutrition' ? styles.active : ''}`}
-            onClick={() => setActiveTab('nutrition')}
+            onClick={() => handleTabChange('nutrition')}
           >
             Nutrition
           </button>
@@ -367,62 +552,215 @@ const Profile: React.FC = () => {
         <div className={styles.tabContent}>
           {activeTab === 'settings' && (
             <div className={styles.settings}>
-              <div className={styles.profileFormHeading}>Settings</div>
-              <form className={styles.profileForm} onSubmit={handleProfileSave}>
-                <div className={styles.profileFormRow}>
-                  <label>Name</label>
-                  <input type="text" name="name" value={profileForm.name} onChange={handleProfileInputChange} className={styles.profileInput} />
-                </div>
-                <div className={styles.profileFormRow}>
-                  <label>Age</label>
-                  <input type="number" name="age" value={profileForm.age} onChange={handleProfileInputChange} className={styles.profileInput} min="1" />
-                </div>
-                <div className={styles.profileFormRow}>
-                  <label>Email</label>
-                  <input type="email" name="email" value={profileForm.email} onChange={handleProfileInputChange} className={styles.profileInput} />
-                </div>
-                <div className={styles.profileFormRow}>
-                  <label>Profile Photo</label>
-                  <div className={styles.profilePhotoEdit}>
-                    {profileForm.profilePhoto && profileForm.profilePhoto !== 'https://via.placeholder.com/150' ? (
-                      <img src={profileForm.profilePhoto} alt="Profile Preview" className={styles.profilePhotoPreview} />
-                    ) : (
-                      <div className={styles.profilePhotoPlaceholder}>
-                        {profileForm.name ? profileForm.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2) : <span>👤</span>}
-                      </div>
-                    )}
-                    <input type="file" name="profilePhoto" accept="image/*" onChange={handleProfileInputChange} />
+              <div className={styles.profileFormHeading}>Profile Settings</div>
+              <form 
+                className={`${styles.profileForm} ${isLoading ? styles.loading : ''}`} 
+                onSubmit={handleProfileSave}
+              >
+                {/* Personal Information Section */}
+                <div className={styles.settingsSection}>
+                  <h3 className={styles.sectionTitle}>Personal Information</h3>
+                  <div className={styles.profileFormRow}>
+                    <label htmlFor="name">Full Name</label>
+                    <input
+                      id="name"
+                      type="text"
+                      name="name"
+                      value={profileForm.name}
+                      onChange={handleProfileInputChange}
+                      className={styles.profileInput}
+                      placeholder="Enter your full name"
+                    />
+                  </div>
+                  <div className={styles.profileFormRow}>
+                    <label htmlFor="age">Age</label>
+                    <input
+                      id="age"
+                      type="number"
+                      name="age"
+                      value={profileForm.age}
+                      onChange={handleProfileInputChange}
+                      className={styles.profileInput}
+                      placeholder="Enter your age"
+                      min="1"
+                    />
+                  </div>
+                  <div className={styles.profileFormRow}>
+                    <label htmlFor="email">Email Address</label>
+                    <input
+                      id="email"
+                      type="email"
+                      name="email"
+                      value={profileForm.email}
+                      onChange={handleProfileInputChange}
+                      className={styles.profileInput}
+                      placeholder="Enter your email address"
+                    />
                   </div>
                 </div>
-                <div className={styles.buttonRow}>
-                  <button type="submit" className={styles.saveProfileButton}>Save Profile</button>
+
+                {/* Profile Photo Section */}
+                <div className={styles.settingsSection}>
+                  <h3 className={styles.sectionTitle}>Profile Photo</h3>
+                  <div className={styles.profilePhotoEdit}>
+                    <div className={styles.imagePreviewContainer}>
+                      {profileForm.profilePhoto ? (
+                        <img 
+                          src={profileForm.profilePhoto} 
+                          alt="Profile Preview" 
+                          className={styles.imagePreview} 
+                        />
+                      ) : (
+                        <div className={styles.profilePhotoPlaceholder}>
+                          {profileForm.name ? profileForm.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2) : '👤'}
+                        </div>
+                      )}
+                    </div>
+                    <input
+                      type="file"
+                      name="profilePhoto"
+                      accept="image/*"
+                      onChange={handleProfileInputChange}
+                      className={styles.fileInput}
+                    />
+                    <button
+                      type="button"
+                      className={styles.uploadButton}
+                      onClick={() => (document.querySelector('input[name="profilePhoto"]') as HTMLInputElement)?.click()}
+                    >
+                      Change Photo
+                    </button>
+                  </div>
                 </div>
-                {profileError && <div className={styles.profileError}>{profileError}</div>}
-                {profileSuccess && <div className={styles.profileSuccess}>Profile saved!</div>}
-                <div className={styles.settingItem}>
-                  <span>Reminders</span>
-                  <label className={styles.switch}>
-                    <input type="checkbox" checked={settings.reminders} onChange={() => handleSettingToggle('reminders')} />
-                    <span className={styles.slider}></span>
-                  </label>
+
+                {/* Nutrition Goals Section */}
+                <div className={styles.settingsSection}>
+                  <h3 className={styles.sectionTitle}>Daily Nutrition Goals</h3>
+                  <div className={styles.nutritionGrid}>
+                    <div className={styles.profileFormRow}>
+                      <label htmlFor="calories">Calories (kcal)</label>
+                      <input
+                        id="calories"
+                        type="number"
+                        name="calories"
+                        value={nutritionGoals.calories}
+                        onChange={handleNutritionGoalsChange}
+                        className={styles.profileInput}
+                        min="0"
+                        placeholder="Enter daily calorie goal"
+                      />
+                    </div>
+                    <div className={styles.profileFormRow}>
+                      <label htmlFor="protein">Protein (g)</label>
+                      <input
+                        id="protein"
+                        type="number"
+                        name="protein"
+                        value={nutritionGoals.protein}
+                        onChange={handleNutritionGoalsChange}
+                        className={styles.profileInput}
+                        min="0"
+                        placeholder="Enter protein goal"
+                      />
+                    </div>
+                    <div className={styles.profileFormRow}>
+                      <label htmlFor="carbs">Carbohydrates (g)</label>
+                      <input
+                        id="carbs"
+                        type="number"
+                        name="carbs"
+                        value={nutritionGoals.carbs}
+                        onChange={handleNutritionGoalsChange}
+                        className={styles.profileInput}
+                        min="0"
+                        placeholder="Enter carbs goal"
+                      />
+                    </div>
+                    <div className={styles.profileFormRow}>
+                      <label htmlFor="fat">Fat (g)</label>
+                      <input
+                        id="fat"
+                        type="number"
+                        name="fat"
+                        value={nutritionGoals.fat}
+                        onChange={handleNutritionGoalsChange}
+                        className={styles.profileInput}
+                        min="0"
+                        placeholder="Enter fat goal"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.settingItem}>
-                  <span>Notifications</span>
-                  <label className={styles.switch}>
-                    <input type="checkbox" checked={settings.notifications} onChange={() => handleSettingToggle('notifications')} />
-                    <span className={styles.slider}></span>
-                  </label>
+
+                {/* Preferences Section */}
+                <div className={styles.settingsSection}>
+                  <h3 className={styles.sectionTitle}>Preferences</h3>
+                  <div className={styles.settingItem}>
+                    <span>Reminders</span>
+                    <label className={styles.switch}>
+                      <input
+                        type="checkbox"
+                        checked={settings.reminders}
+                        onChange={() => handleSettingToggle('reminders')}
+                      />
+                      <span className={styles.slider}></span>
+                    </label>
+                  </div>
+                  <div className={styles.settingItem}>
+                    <span>Notifications</span>
+                    <label className={styles.switch}>
+                      <input
+                        type="checkbox"
+                        checked={settings.notifications}
+                        onChange={() => handleSettingToggle('notifications')}
+                      />
+                      <span className={styles.slider}></span>
+                    </label>
+                  </div>
+                  <div className={styles.settingItem}>
+                    <span>Email Updates</span>
+                    <label className={styles.switch}>
+                      <input
+                        type="checkbox"
+                        checked={settings.emailUpdates}
+                        onChange={() => handleSettingToggle('emailUpdates')}
+                      />
+                      <span className={styles.slider}></span>
+                    </label>
+                  </div>
                 </div>
-                <div className={styles.settingItem}>
-                  <span>Email Updates</span>
-                  <label className={styles.switch}>
-                    <input type="checkbox" checked={settings.emailUpdates} onChange={() => handleSettingToggle('emailUpdates')} />
-                    <span className={styles.slider}></span>
-                  </label>
+
+                {/* Form Actions */}
+                <div className={styles.formActions}>
+                  <button
+                    type="submit"
+                    className={styles.saveProfileButton}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Saving...' : 'Save Changes'}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.logoutButton}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
                 </div>
-                <button className={styles.logoutButton} onClick={handleLogout} type="button">
-                  Logout
-                </button>
+
+                {/* Status Messages */}
+                {profileError && (
+                  <div className={styles.profileError}>
+                    <span className={styles.errorIcon}>!</span>
+                    {profileError}
+                  </div>
+                )}
+                {profileSuccess && (
+                  <div className={styles.profileSuccess}>
+                    <span className={styles.successIcon}>✓</span>
+                    Profile updated successfully!
+                  </div>
+                )}
               </form>
             </div>
           )}
@@ -500,39 +838,58 @@ const Profile: React.FC = () => {
           )}
 
           {activeTab === 'nutrition' && (
-            <div className={styles.nutritionTabGrid}>
-              {[
-                { key: 'calories', label: 'Calories' },
-                { key: 'protein', label: 'Protein' },
-                { key: 'carbs', label: 'Carbs' },
-                { key: 'fat', label: 'Fat' },
-              ].map(nutrient => (
-                <div key={nutrient.key} className={styles.nutritionTabCircleWrapper}>
-                  <div className={styles.nutritionTabCircleOuter}>
-                    <svg className={styles.nutritionTabCircleSvg} viewBox="0 0 40 40">
-                      <circle
-                        className={styles.nutritionTabCircleTrack}
-                        cx="20" cy="20" r="18"
-                        stroke="#eee" strokeWidth="4" fill="none"
-                      />
-                      <circle
-                        className={styles.nutritionTabCircleBar}
-                        cx="20" cy="20" r="18"
-                        stroke="#FF6B35"
-                        strokeWidth="4"
-                        fill="none"
-                        strokeDasharray={113}
-                        strokeDashoffset={113 - (113 * getNutritionPercent(nutrient.key as keyof typeof nutritionGoals)) / 100}
-                        style={{ transition: 'stroke-dashoffset 0.7s cubic-bezier(.4,2,.6,1)' }}
-                      />
-                    </svg>
-                    <div className={styles.nutritionTabCirclePercent}>
-                      {getNutritionPercent(nutrient.key as keyof typeof nutritionGoals)}%
-                    </div>
-                  </div>
-                  <div className={styles.nutritionTabCircleLabel}>{nutrient.label}</div>
+            <div className={styles.nutritionTabContent}>
+              {isLoading ? (
+                <div className={styles.loadingSpinner}>Loading nutrition data...</div>
+              ) : error ? (
+                <div className={styles.errorMessage}>{error}</div>
+              ) : (
+                <div className={styles.nutritionTabGrid}>
+                  {[
+                    { key: 'calories', label: 'Calories', unit: 'kcal' },
+                    { key: 'protein', label: 'Protein', unit: 'g' },
+                    { key: 'carbs', label: 'Carbs', unit: 'g' },
+                    { key: 'fat', label: 'Fat', unit: 'g' },
+                  ].map(nutrient => {
+                    const percent = getNutritionPercent(nutrient.key as keyof typeof nutritionGoals);
+                    const goal = state.userData?.dailyNutritionGoals?.[nutrient.key as keyof typeof nutritionGoals] || 0;
+                    const intake = todayIntake[nutrient.key as keyof typeof todayIntake] || 0;
+
+                    return (
+                      <div key={nutrient.key} className={styles.nutritionTabCircleWrapper}>
+                        <div className={styles.nutritionTabCircleOuter}>
+                          <svg className={styles.nutritionTabCircleSvg} viewBox="0 0 40 40">
+                            <circle
+                              className={styles.nutritionTabCircleTrack}
+                              cx="20" cy="20" r="18"
+                              stroke="#eee" strokeWidth="4" fill="none"
+                            />
+                            <circle
+                              className={styles.nutritionTabCircleBar}
+                              cx="20" cy="20" r="18"
+                              stroke="#FF6B35"
+                              strokeWidth="4"
+                              fill="none"
+                              strokeDasharray={113}
+                              strokeDashoffset={113 - (113 * percent) / 100}
+                              style={{ transition: 'stroke-dashoffset 0.7s ease' }}
+                            />
+                          </svg>
+                          <div className={styles.nutritionTabCirclePercent}>
+                            {percent}%
+                          </div>
+                        </div>
+                        <div className={styles.nutritionTabCircleLabel}>
+                          {nutrient.label}
+                        </div>
+                        <div className={styles.nutritionTabCircleValue}>
+                          {intake} / {goal} {nutrient.unit}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              ))}
+              )}
             </div>
           )}
         </div>
