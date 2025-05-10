@@ -5,6 +5,7 @@ import Layout from '../../components/Layout/Layout';
 import WorkoutCard from './components/WorkoutCard';
 import Filters from './components/Filters';
 import styles from './Workouts.module.css';
+import Button from '../../components/Button/Button';
 
 const Workouts: React.FC = () => {
   const navigate = useNavigate();
@@ -42,6 +43,13 @@ const Workouts: React.FC = () => {
     <Layout>
       <div className={styles.pageContainer}>
         <aside className={styles.sidebar}>
+          <Button
+            variant="primary"
+            onClick={() => navigate('/weekly-plan')}
+            className={styles.planButton}
+          >
+            View Weekly Plan
+          </Button>
           <Filters 
             filters={filters}
             onFilterChange={handleFilterChange}

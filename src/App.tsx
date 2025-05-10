@@ -12,6 +12,7 @@ import WorkoutDetail from './pages/Workouts-page/WorkoutDetail';
 import { WorkoutPlanProvider } from './context/WorkoutPlanContext';
 import StartWorkout from './pages/Workouts-page/StartWorkout/StartWorkout';
 import { AppProvider } from './context/AppContext';
+import WeeklyPlan from './pages/Workouts-page/WeeklyPlan';
 
 
 const App: React.FC = () => {
@@ -28,6 +29,7 @@ const App: React.FC = () => {
           <Route path="/workouts" element={<Workouts />} />
           <Route path="/workouts/:id" element={<WorkoutDetail />} />
           <Route path="/start-workout/:id" element={<StartWorkout />} />
+          <Route path="/weekly-plan" element={<WeeklyPlan />} />
         </Routes>
       </AppProvider>
     </WorkoutPlanProvider>

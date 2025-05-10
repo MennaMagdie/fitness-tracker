@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, User, Users, ActivityIcon } from 'lucide-react';
+import { Home, User, Users, ActivityIcon, Dumbbell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
@@ -18,6 +18,11 @@ export const Navbar = () => {
             <Link to="/dashboard" className="btn btn-ghost navbar-link">
               <ActivityIcon className="mr-2 h-4 w-4" />
               Dashboard
+            </Link>
+
+            <Link to="/workouts" className="btn btn-ghost navbar-link">
+              <Dumbbell className="mr-2 h-4 w-4" />
+              My Workouts
             </Link>
 
             <div className="dropdown">

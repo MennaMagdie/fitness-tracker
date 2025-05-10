@@ -1,5 +1,6 @@
 import React from 'react';
-import Navbar from '../Navbar';
+import { Navbar } from '../Home/Navbar';
+import { Footer } from '../Home/Footer';
 import styles from './Layout.module.css';
 
 interface LayoutProps {
@@ -13,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <main className={styles.main}>
         {children}
       </main>
+      <Footer />
       {/* Footer will be added here when available */}
     </div>
   );

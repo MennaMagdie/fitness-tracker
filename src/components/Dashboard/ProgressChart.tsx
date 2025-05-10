@@ -5,6 +5,15 @@ import { addProgress } from "../../services/api";
 
 type MetricType = "calories" | "duration" | "intensity";
 
+type ProgressEntry = {
+  type: 'workout';
+  value: number;
+  duration: number;
+  workoutType: 'cardio' | 'strength' | 'flexibility' | 'other';
+  date: string;
+  done: boolean;
+};
+
 export const ProgressChart = () => {
   const { state, dispatch } = useAppContext();
   const [activeMetric, setActiveMetric] = useState<MetricType>("calories");
@@ -47,18 +56,22 @@ export const ProgressChart = () => {
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     
     return days.map(day => {
-      const dayEntry = workoutEntries.find(entry => {
+      const dayEntries = workoutEntries.filter(entry => {
         const entryDate = new Date(entry.date);
         return entryDate.toLocaleDateString('en-US', { weekday: 'short' }) === day;
       });
 
+      const totalDuration = dayEntries.reduce((sum, entry) => sum + (entry.duration || 0), 0);
+
+      console.log('Day Entries:', dayEntries);
+      console.log('Total Duration:', totalDuration);
+
       return {
         day,
-        calories: dayEntry?.value || 0,
-        duration: dayEntry?.duration || 0,
-        intensity: dayEntry?.workoutType === 'cardio' ? 8 : 
-                  dayEntry?.workoutType === 'strength' ? 7 :
-                  dayEntry?.workoutType === 'flexibility' ? 5 : 6
+        calories: dayEntries.reduce((sum, entry) => sum + entry.value, 0),
+        duration: totalDuration,
+        intensity: dayEntries.length > 0 ? Math.round(dayEntries.reduce((sum, entry) => sum + (entry.workoutType === 'cardio' ? 8 : entry.workoutType === 'strength' ? 7 : entry.workoutType === 'flexibility' ? 5 : 6), 0) / dayEntries.length) : 0,
+        done: dayEntries.some(entry => entry.done)
       };
     });
   }, [state.progress]);
@@ -82,6 +95,15 @@ export const ProgressChart = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const markAsDone = (workoutId: string) => {
+    dispatch({
+      type: 'SET_PROGRESS',
+      payload: state.progress.map(entry =>
+        entry.id === workoutId ? { ...entry, done: true } : entry
+      ).sort((a, b) => a.done === b.done ? 0 : a.done ? 1 : -1)
+    });
   };
 
   return (

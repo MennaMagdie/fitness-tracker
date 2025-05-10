@@ -6,14 +6,16 @@ interface WorkoutCardProps {
   workout: Workout;
   isFavorite: boolean;
   onToggleFavorite: () => void;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
+  children?: React.ReactNode;
 }
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({
   workout,
   isFavorite,
   onToggleFavorite,
-  onClick
+  onClick,
+  children
 }) => {
   return (
     <div className={styles.workoutCard} onClick={onClick}>
@@ -43,9 +45,10 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
           <span className={styles.workoutDifficulty}>📊 {workout.difficulty}</span>
         </div>
         <div className={styles.workoutActions}>
-          <button className={styles.actionButton} onClick={onClick}>
+          <button className={styles.actionButton} onClick={(e) => onClick(e)}>
             View Details
           </button>
+          {children}
         </div>
       </div>
     </div>

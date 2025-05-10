@@ -2,11 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Profile.module.css';
 import { Navbar } from '../components/Home/Navbar';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Landing/Footer';
-import styles from './Profile.module.css';
 import { getTodayNutrition, getUserProfile, updateUserProfile } from '../services/api';
 
 interface UserData {
@@ -77,7 +74,6 @@ const Profile: React.FC = () => {
     emailUpdates: false,
     language: 'en',
   });
-  const location = useLocation();
 
   const [profileForm, setProfileForm] = useState({
     name: userData.name,

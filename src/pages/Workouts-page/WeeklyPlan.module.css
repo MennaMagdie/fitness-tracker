@@ -1,0 +1,74 @@
+.container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f7f9fc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.backButton {
+  margin-bottom: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #45a049;
+}
+
+.planList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.planItem {
+  background-color: white;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, opacity 0.3s ease;
+}
+
+.planItem.done {
+  opacity: 0.5;
+  transform: translateY(10px);
+}
+
+.planItem:hover {
+  transform: translateY(-5px);
+  opacity: 1;
+}
+
+.planItem h2 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.planItem p {
+  margin: 0;
+  color: #555;
+}
+
+.doneButton {
+  margin-top: 10px;
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.doneButton:hover {
+  background-color: #ec971f;
+} 

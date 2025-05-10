@@ -41,6 +41,7 @@ interface ProgressEntry {
     thighs?: number;
   };
   date: string;
+  done: boolean;
 }
 
 interface NutritionEntry {

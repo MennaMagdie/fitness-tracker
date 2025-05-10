@@ -112,6 +112,14 @@ const WorkoutDetail: React.FC = () => {
           </Button>
         </div>
 
+        <Button
+          variant="outline"
+          onClick={() => navigate('/weekly-plan')}
+          className={styles.planButton}
+        >
+          View Weekly Plan
+        </Button>
+
         {showToast && (
           <Toast
             message="Added to your weekly plan!"
