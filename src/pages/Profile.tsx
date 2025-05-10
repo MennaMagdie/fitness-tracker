@@ -28,8 +28,8 @@ type BooleanSettingKey = 'reminders' | 'notifications' | 'darkMode' | 'emailUpda
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState('settings');
   const [userData, setUserData] = useState<UserData>({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
+    name: 'Joo Doe',
+    email: 'Joo7doe@example.com',
     profilePhoto: 'https://via.placeholder.com/150',
     height: 0,
     weight: 0,

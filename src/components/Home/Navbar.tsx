@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Home, User, Users, ActivityIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -24,8 +24,8 @@ export const Navbar = () => {
               <button className="btn btn-ghost navbar-link">Services</button>
               <div className="dropdown-content">
                 <a href="#" className="dropdown-item">Personal Training</a>
-                <a href="#" className="dropdown-item">Group Classes</a>
-                <a href="#" className="dropdown-item">Nutrition Plans</a>
+                <Link to="/workouts" className="dropdown-item">Workouts</Link>
+                <Link to="/dashboard" className="dropdown-item">Nutrition Plans</Link>
               </div>
             </div>
 
@@ -35,7 +35,7 @@ export const Navbar = () => {
                 Community
               </button>
               <div className="dropdown-content">
-                <a href="#" className="dropdown-item">Forums</a>
+                <Link to="/feedback" className="dropdown-item">Feedback</Link>
                 <a href="#" className="dropdown-item">Events</a>
                 <a href="#" className="dropdown-item">Challenges</a>
               </div>
@@ -47,9 +47,9 @@ export const Navbar = () => {
                 Profile
               </button>
               <div className="dropdown-content">
-                <Link to="/profile?tab=streak" className="dropdown-item">Profile</Link>
+                <Link to="/profile" className="dropdown-item">Profile</Link>
                 <Link to="/profile?tab=settings" className="dropdown-item">Settings</Link>
-                <a href="/profile?tab=progress" className="dropdown-item">My Workouts</a>
+                <Link to="/workouts" className="dropdown-item">Workouts</Link>
                 <a href="/login" className="dropdown-item">Sign Out</a>
               </div>
             </div>

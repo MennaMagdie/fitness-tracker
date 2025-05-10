@@ -1,5 +1,5 @@
 
-import React from "react";
+// import React from "react";
 import { Navbar } from "../components/Home/Navbar";
 import { WorkoutCard } from "../components/Home/WorkoutCard";
 import { WeeklyChallenge } from "../components/Home/WeeklyChallenge";
@@ -37,7 +37,7 @@ const Home = () => {
       
       <main className="container px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">Welcome back, John! 👋</h1>
+          <h1 className="text-4xl font-bold text-gray-900">Welcome back, Joo! 👋</h1>
           <p className="mt-2 text-gray-600">Ready for another great workout?</p>
         </div>
 
