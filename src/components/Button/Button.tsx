@@ -4,7 +4,7 @@ import styles from './Button.module.css';
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'outline';
   size?: 'small' | 'medium' | 'large';
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
   className?: string;
   disabled?: boolean;

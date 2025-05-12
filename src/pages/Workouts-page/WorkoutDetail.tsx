@@ -53,6 +53,12 @@ const WorkoutDetail: React.FC = () => {
         <div className={styles.header}>
           <div className={styles.titleSection}>
             <h1 className={styles.title}>{workout.title}</h1>
+            <div className={styles.metaInfo}>
+              <span className={styles.duration}>{workout.duration} min</span>
+              <span className={styles.difficulty}>{workout.difficulty}</span>
+              <span className={styles.type}>{workout.type}</span>
+              <span className={styles.calories}>🔥 {workout.totalCaloriesBurned} calories</span>
+            </div>
             <button
               className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`}
               onClick={toggleFavorite}
@@ -61,9 +67,6 @@ const WorkoutDetail: React.FC = () => {
             </button>
           </div>
           <div className={styles.meta}>
-            <span className={styles.duration}>{workout.duration} min</span>
-            <span className={styles.difficulty}>{workout.difficulty}</span>
-            <span className={styles.type}>{workout.type}</span>
             <span className={styles.intensity}>{workout.intensity} intensity</span>
           </div>
         </div>
@@ -74,6 +77,14 @@ const WorkoutDetail: React.FC = () => {
             alt={workout.title}
             className={styles.workoutImage}
           />
+        </div>
+
+        <div className={styles.description}>
+          <h2>About this workout</h2>
+          <p>
+            A {workout.duration}-minute {workout.type} workout designed for {workout.difficulty} level fitness enthusiasts.
+            This workout will help you burn approximately {workout.totalCaloriesBurned} calories while improving your strength and endurance.
+          </p>
         </div>
 
         <div className={styles.exercises}>
@@ -87,6 +98,9 @@ const WorkoutDetail: React.FC = () => {
                 <h3>{exercise.name}</h3>
                 <div className={styles.exerciseMeta}>
                   <span className={styles.timeOrReps}>{exercise.timeOrReps}</span>
+                  {exercise.caloriesBurned && (
+                    <span className={styles.caloriesBurned}>🔥 {exercise.caloriesBurned} cal</span>
+                  )}
                 </div>
                 <p className={styles.exerciseDescription}>{exercise.description}</p>
               </div>

@@ -2,22 +2,27 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import "../components/Registration/registration.css";
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { register } from '../services/api';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    height: "",
+    weight: "",
     age: "",
     gender: "",
-    fitnessGoal: "",
-    currentWeight: "",
-    targetWeight: "",
-    location: "",
+    activityLevel: "",
+    goals: []
   });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -25,143 +30,183 @@ const Signup = () => {
     }));
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData); // will send data to API here
+    setError("");
+
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Convert string values to numbers where needed
+      const registrationData: {
+        name: string;
+        email: string;
+        password: string;
+        height: number;
+        weight: number;
+        age: number;
+        gender: string;
+        activityLevel: string;
+        goals: string[];
+        confirmPassword?: string;
+      } = {
+        ...formData,
+        height: Number(formData.height),
+        weight: Number(formData.weight),
+        age: Number(formData.age),
+        goals: formData.goals.length ? formData.goals : ["general_fitness"]
+      };
+
+      // Remove confirmPassword as it's not needed for registration
+      delete registrationData.confirmPassword;
+
+      await register(registrationData);
+      navigate('/home');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <>
-    <Navbar></Navbar>
-    <div className="signup">
-      <div className="signup-container">
-        <h2 className="text-center">Become a NeuroFitter</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="fullName">Full Name</label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="age">Age</label>
-            <input
-              type="number"
-              id="age"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="gender">Gender</label>
-            <select
-              id="gender"
-              name="gender"
-              value={formData.gender}
-              onChange={handleSelectChange}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="fitnessGoal">Fitness Goal</label>
-            <select
-              id="fitnessGoal"
-              name="fitnessGoal"
-              value={formData.fitnessGoal}
-              onChange={handleSelectChange}
-              required
-            >
-              <option value="">Select Goal</option>
-              <option value="loseWeight">Lose Weight</option>
-              <option value="buildMuscle">Build Muscle</option>
-              <option value="maintainFitness">Maintain Fitness</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="currentWeight">Current Weight (kg)</label>
-            <input
-              type="number"
-              id="currentWeight"
-              name="currentWeight"
-              value={formData.currentWeight}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="targetWeight">Target Weight (kg)</label>
-            <input
-              type="number"
-              id="targetWeight"
-              name="targetWeight"
-              value={formData.targetWeight}
-              onChange={handleChange}
-              required
-            />
-          </div>
-      
-          <button type="submit" className="btn btn-light w-100">
-            Create Account
-          </button>
-        </form>
+      <Navbar></Navbar>
+      <div className="signup">
+        <div className="signup-container">
+          <h2 className="text-center">Become a NeuroFitter</h2>
+          {error && <div className="error-message">{error}</div>}
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="name">Full Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength={6}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                minLength={6}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="age">Age</label>
+              <input
+                type="number"
+                id="age"
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+                required
+                min={13}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="gender">Gender</label>
+              <select
+                id="gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="height">Height (cm)</label>
+              <input
+                type="number"
+                id="height"
+                name="height"
+                value={formData.height}
+                onChange={handleChange}
+                required
+                min={100}
+                max={250}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="weight">Weight (kg)</label>
+              <input
+                type="number"
+                id="weight"
+                name="weight"
+                value={formData.weight}
+                onChange={handleChange}
+                required
+                min={30}
+                max={300}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="activityLevel">Activity Level</label>
+              <select
+                id="activityLevel"
+                name="activityLevel"
+                value={formData.activityLevel}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Activity Level</option>
+                <option value="sedentary">Sedentary</option>
+                <option value="light">Light</option>
+                <option value="moderate">Moderate</option>
+                <option value="active">Active</option>
+                <option value="very_active">Very Active</option>
+              </select>
+            </div>
+            <button type="submit" className="btn btn-light w-100" disabled={isLoading}>
+              {isLoading ? 'Creating Account...' : 'Create Account'}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     </>
   );
-  
 };
 
 export default Signup;

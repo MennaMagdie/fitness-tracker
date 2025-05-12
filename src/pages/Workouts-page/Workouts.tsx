@@ -6,9 +6,11 @@ import WorkoutCard from './components/WorkoutCard';
 import Filters from './components/Filters';
 import styles from './Workouts.module.css';
 import Button from '../../components/Button/Button';
+import { useWorkoutPlan } from '../../context/WorkoutPlanContext';
 
 const Workouts: React.FC = () => {
   const navigate = useNavigate();
+  const { addToPlan, isInPlan } = useWorkoutPlan();
   const [filters, setFilters] = useState({
     duration: 'all',
     type: 'all',
@@ -60,9 +62,8 @@ const Workouts: React.FC = () => {
             <WorkoutCard
               key={workout.id}
               workout={workout}
-              isFavorite={workout.isFavorited}
-              onToggleFavorite={() => handleToggleFavorite(workout.id)}
-              onClick={() => navigate(`/workouts/${workout.id}`)}
+              isInPlan={isInPlan(workout.id)}
+              onAddToPlan={() => addToPlan(workout)}
             />
           ))}
         </section>

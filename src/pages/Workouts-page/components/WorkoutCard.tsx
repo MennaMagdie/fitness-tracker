@@ -1,54 +1,65 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Workout } from '../../../data/workoutsData';
+import Button from '../../../components/Button/Button';
 import styles from './WorkoutCard.module.css';
 
 interface WorkoutCardProps {
   workout: Workout;
-  isFavorite: boolean;
-  onToggleFavorite: () => void;
-  onClick: (e: React.MouseEvent) => void;
-  children?: React.ReactNode;
+  isCompleted?: boolean;
+  onMarkAsDone?: () => void;
+  isInPlan?: boolean;
+  onAddToPlan?: () => void;
 }
 
-const WorkoutCard: React.FC<WorkoutCardProps> = ({
-  workout,
-  isFavorite,
-  onToggleFavorite,
-  onClick,
-  children
-}) => {
+const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, isCompleted, onMarkAsDone, isInPlan, onAddToPlan }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className={styles.workoutCard} onClick={onClick}>
-      <div className={styles.workoutImageContainer}>
-        <img
-          src={workout.image}
-          alt={workout.title}
-          className={styles.workoutImage}
-          loading="lazy"
-        />
-        <button
-          className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleFavorite();
-          }}
-          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-        >
-          {isFavorite ? '❤️' : '🤍'}
-        </button>
+    <div className={`${styles.card} ${isCompleted ? styles.completed : ''}`}>
+      <div className={styles.imageContainer}>
+        <img src={workout.image} alt={workout.title} />
+        {isCompleted && <div className={styles.completedBadge}>✓ Completed</div>}
       </div>
-      <div className={styles.workoutContent}>
-        <h3 className={styles.workoutTitle}>{workout.title}</h3>
-        <div className={styles.workoutMeta}>
-          <span className={styles.workoutDuration}>⏱️ {workout.duration} min</span>
-          <span className={styles.workoutType}>🏋️ {workout.type}</span>
-          <span className={styles.workoutDifficulty}>📊 {workout.difficulty}</span>
+      
+      <div className={styles.content}>
+        <h3>{workout.title}</h3>
+        
+        <div className={styles.metaInfo}>
+          <span className={styles.duration}>{workout.duration} min</span>
+          <span className={styles.difficulty}>{workout.difficulty}</span>
+          <span className={styles.type}>{workout.type}</span>
+          <span className={styles.calories}>🔥 {workout.totalCaloriesBurned} cal</span>
         </div>
-        <div className={styles.workoutActions}>
-          <button className={styles.actionButton} onClick={(e) => onClick(e)}>
+
+        <div className={styles.actions}>
+          <Button
+            variant="primary"
+            onClick={() => navigate(`/workouts/${workout.id}`)}
+            className={styles.detailsButton}
+          >
             View Details
-          </button>
-          {children}
+          </Button>
+          {onAddToPlan ? (
+            <Button
+              variant="secondary"
+              onClick={onAddToPlan}
+              className={styles.doneButton}
+              disabled={isInPlan}
+            >
+              {isInPlan ? 'Added to Plan' : 'Add to Plan'}
+            </Button>
+          ) : (
+            !isCompleted && onMarkAsDone && (
+              <Button
+                variant="secondary"
+                onClick={onMarkAsDone}
+                className={styles.doneButton}
+              >
+                Mark as Done
+              </Button>
+            )
+          )}
         </div>
       </div>
     </div>

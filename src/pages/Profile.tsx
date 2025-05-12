@@ -4,7 +4,9 @@ import styles from './Profile.module.css';
 import { Navbar } from '../components/Home/Navbar';
 import { useAppContext } from '../context/AppContext';
 import Footer from '../components/Landing/Footer';
-import { getTodayNutrition, getUserProfile, updateUserProfile } from '../services/api';
+import { getTodayNutrition, getUserProfile, updateUserProfile, api, logBMI, getBMILogs, uploadProfilePhoto } from '../services/api';
+import BMITracker from '../components/BMI/BMITracker';
+import StreakTracker from '../components/Streak/StreakTracker';
 
 interface UserData {
   name: string;
@@ -51,7 +53,7 @@ const Profile: React.FC = () => {
   const [userData, setUserData] = useState<UserData>({
     name: '',
     email: '',
-    profilePhoto: 'https://via.placeholder.com/150',
+    profilePhoto: 'https://ui-avatars.com/api/?background=random',
     height: 0,
     weight: 0,
     bmi: 0,
@@ -79,7 +81,7 @@ const Profile: React.FC = () => {
     name: userData.name,
     age: userData.age || '',
     email: userData.email,
-    profilePhoto: userData.profilePhoto,
+    profilePhoto: userData.profilePhoto || 'https://ui-avatars.com/api/?background=random',
   });
 
   const [nutritionGoals, setNutritionGoals] = useState({
@@ -142,7 +144,7 @@ const Profile: React.FC = () => {
     navigate('/login');
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       // Check if file is an image
@@ -157,23 +159,59 @@ const Profile: React.FC = () => {
         return;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageUrl = reader.result as string;
+      try {
+        console.log('Uploading file:', file.name, 'Size:', file.size, 'Type:', file.type);
+
+        // Upload the image using the dedicated upload function
+        const response = await uploadProfilePhoto(file);
+        console.log('Upload response:', response);
+
+        if (!response || !response.photoUrl) {
+          throw new Error('No photo URL in response');
+        }
+
+        const imageUrl = response.photoUrl;
+        console.log('New image URL:', imageUrl);
+
         // Update both states to ensure consistency
-        setUserData(prev => ({
-          ...prev,
-          profilePhoto: imageUrl
-        }));
-        setProfileForm(prev => ({
-          ...prev,
-          profilePhoto: imageUrl
-        }));
-      };
-      reader.onerror = () => {
-        setProfileError('Error reading the image file');
-      };
-      reader.readAsDataURL(file);
+        setUserData(prev => {
+          console.log('Updating userData with new photo:', imageUrl);
+          return {
+            ...prev,
+            profilePhoto: imageUrl
+          };
+        });
+
+        setProfileForm(prev => {
+          console.log('Updating profileForm with new photo:', imageUrl);
+          return {
+            ...prev,
+            profilePhoto: imageUrl
+          };
+        });
+
+        // Update global context with the new user data
+        if (state.userData) {
+          console.log('Updating global context with new photo');
+          dispatch({
+            type: 'SET_USER_DATA',
+            payload: {
+              ...state.userData,
+              profilePhoto: imageUrl
+            }
+          });
+        }
+
+        // Force a re-render of the image
+        const imgElement = document.querySelector(`.${styles.imagePreview}`) as HTMLImageElement;
+        if (imgElement) {
+          imgElement.src = imageUrl + '?t=' + new Date().getTime();
+        }
+
+      } catch (error) {
+        console.error('Error uploading profile photo:', error);
+        setProfileError('Failed to upload profile photo. Please try again.');
+      }
     }
   };
 
@@ -278,7 +316,7 @@ const Profile: React.FC = () => {
           name: profileData.name || '',
           age: profileData.age || '',
           email: profileData.email || '',
-          profilePhoto: profileData.profilePhoto || 'https://via.placeholder.com/150'
+          profilePhoto: profileData.profilePhoto || 'https://ui-avatars.com/api/?background=random'
         });
 
         // Update nutrition goals if available
@@ -290,10 +328,7 @@ const Profile: React.FC = () => {
         const errorMessage = err instanceof Error ? err.message : 'Failed to load profile data. Please try again.';
         setError(errorMessage);
         
-        // If unauthorized, redirect to login
-        if (err instanceof Error && err.message.includes('401')) {
-          navigate('/login');
-        }
+        // Don't redirect here - let the API interceptor handle it
       } finally {
         setIsLoading(false);
       }
@@ -323,12 +358,16 @@ const Profile: React.FC = () => {
         dailyNutritionGoals: nutritionGoals
       };
 
+      console.log('Saving profile with data:', updatedData);
+
       // Update user data in backend
       const response = await updateUserProfile(updatedData);
       
       if (!response) {
         throw new Error('No response received from server');
       }
+
+      console.log('Profile update response:', response);
 
       // Update user data in state
       setUserData(prev => ({
@@ -337,13 +376,15 @@ const Profile: React.FC = () => {
       }));
 
       // Update global context
-      dispatch({
-        type: 'SET_USER_DATA',
-        payload: {
-          ...state.userData,
-          ...response
-        }
-      });
+      if (state.userData) {
+        dispatch({
+          type: 'SET_USER_DATA',
+          payload: {
+            ...state.userData,
+            ...response
+          }
+        });
+      }
 
       setProfileSuccess(true);
       setTimeout(() => setProfileSuccess(false), 2000);
@@ -351,11 +392,6 @@ const Profile: React.FC = () => {
       console.error('Failed to update profile:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to update profile. Please try again.';
       setProfileError(errorMessage);
-      
-      // If unauthorized, redirect to login
-      if (err instanceof Error && err.message.includes('401')) {
-        navigate('/login');
-      }
     } finally {
       setIsLoading(false);
     }
@@ -465,7 +501,9 @@ const Profile: React.FC = () => {
   const validateProfileForm = () => {
     if (!profileForm.name.trim()) return 'Name is required.';
     if (!profileForm.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) return 'Invalid email address.';
-    if (!profileForm.age || isNaN(Number(profileForm.age)) || Number(profileForm.age) <= 0) return 'Age must be a positive number.';
+    if (!profileForm.age || isNaN(Number(profileForm.age)) || Number(profileForm.age) <= 0 || Number(profileForm.age) > 120) {
+      return 'Age must be a valid number between 1 and 120.';
+    }
     return '';
   };
 
@@ -477,6 +515,72 @@ const Profile: React.FC = () => {
       setActiveTab(tab);
     }
   }, [location.search]);
+
+  const [bmiLogs, setBmiLogs] = useState<Array<{
+    date: string;
+    bmi: number;
+    weight: number;
+    height: number;
+  }>>([]);
+
+  // Fetch BMI logs when component mounts
+  useEffect(() => {
+    const fetchBMILogs = async () => {
+      try {
+        const logs = await getBMILogs();
+        setBmiLogs(logs);
+      } catch (error) {
+        console.error('Failed to fetch BMI logs:', error);
+      }
+    };
+
+    fetchBMILogs();
+  }, []);
+
+  const handleLogBMI = async (bmi: number, weight: number, height: number) => {
+    try {
+      const response = await logBMI({ bmi, weight, height });
+      setBmiLogs(prev => [...prev, response]);
+      
+      // Update user data with new weight and height
+      if (userData) {
+        const updatedUserData = {
+          ...userData,
+          weight,
+          height,
+          bmi,
+          age: userData.age ?? 0 // Ensure age is always a number
+        };
+        setUserData(updatedUserData);
+        
+        // Update global context
+        dispatch({
+          type: 'SET_USER_DATA',
+          payload: updatedUserData
+        });
+      }
+    } catch (error) {
+      console.error('Failed to log BMI:', error);
+      throw error;
+    }
+  };
+
+  const handleStreakUpdate = (streak: number) => {
+    if (userData) {
+      const updatedUserData = {
+        ...userData,
+        streak,
+        age: userData.age ?? 0 // Ensure age is always a number
+      };
+      setUserData(updatedUserData);
+      
+      // Update global context
+      dispatch({
+        type: 'SET_USER_DATA',
+        payload: updatedUserData
+      });
+    }
+  };
 
   return (
     <>
@@ -762,51 +866,17 @@ const Profile: React.FC = () => {
           )}
 
           {activeTab === 'bmi' && (
-            <div className={styles.bmiInfo}>
-              <div className={styles.profileFormHeading}>BMI Calculator</div>
-              <form className={styles.bmiForm} onSubmit={handleBmiCalculate}>
-                <div className={styles.bmiInputs}>
-                  <div className={styles.inputGroup}>
-                    <label>Height (cm)</label>
-                    <input type="number" name="height" value={bmiForm.height} onChange={handleBmiInputChange} className={styles.bmiInput} min="1" />
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <label>Weight (kg)</label>
-                    <input type="number" name="weight" value={bmiForm.weight} onChange={handleBmiInputChange} className={styles.bmiInput} min="1" />
-                  </div>
-                </div>
-                <button type="submit" className={styles.calculateBmiButton}>Calculate BMI</button>
-                {bmiError && <div className={styles.bmiError}>{bmiError}</div>}
-                <div className={styles.bmiValue}>{bmiResult.bmi}</div>
-                <div className={styles.bmiCategory}>{bmiResult.category}</div>
-              </form>
+            <div className={styles.bmiTabContent}>
+              <BMITracker
+                onLogBMI={handleLogBMI}
+                bmiLogs={bmiLogs}
+              />
             </div>
           )}
 
           {activeTab === 'streak' && (
-            <div className={styles.streakInfo}>
-              <div className={styles.streakValue}>
-                <span role="img" aria-label="fire">🔥</span> Current Streak: {currentStreak} Day{currentStreak !== 1 ? 's' : ''}
-              </div>
-              <div className={styles.streakGrid}>
-                {weekDays.map((day, idx) => (
-                  <div
-                    key={day}
-                    className={workoutCompletion[idx] ? styles.streakDayActive : styles.streakDay}
-                  >
-                    {day}
-                    {workoutCompletion[idx] && (
-                      <span className={styles.streakCheck}>✔</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className={styles.streakHistory}>
-                Total Workout Days Completed: <span className={styles.streakHistoryCount}>{totalCompleted}</span>
-              </div>
-              <button className={styles.resetStreakButton} onClick={handleResetStreak}>
-                Reset Streak
-              </button>
+            <div className={styles.streakTabContent}>
+              <StreakTracker onStreakUpdate={handleStreakUpdate} />
             </div>
           )}
 

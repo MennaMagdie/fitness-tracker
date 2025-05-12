@@ -1,18 +1,32 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useAppContext } from "../../context/AppContext";
 import { addProgress } from "../../services/api";
 
 type MetricType = "calories" | "duration" | "intensity";
 
-type ProgressEntry = {
+interface WorkoutProgressEntry {
+  id: string;
   type: 'workout';
-  value: number;
-  duration: number;
-  workoutType: 'cardio' | 'strength' | 'flexibility' | 'other';
   date: string;
   done: boolean;
-};
+  workout: {
+    id: string;
+    name: string;
+    exercises: Array<{
+      name: string;
+      sets: number;
+      reps: number;
+      weight?: number;
+      duration?: number;
+      caloriesBurned?: number;
+      intensity?: number;
+    }>;
+    totalDuration: number;
+    totalCaloriesBurned: number;
+    averageIntensity: number;
+  };
+}
 
 export const ProgressChart = () => {
   const { state, dispatch } = useAppContext();
@@ -20,12 +34,22 @@ export const ProgressChart = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Debug logging for state changes
+  useEffect(() => {
+    console.log('Progress state updated:', {
+      totalEntries: state.progress.length,
+      workoutEntries: state.progress.filter(e => e.type === 'workout').length,
+      doneEntries: state.progress.filter(e => e.done).length,
+      sampleEntry: state.progress[0]
+    });
+  }, [state.progress]);
+
   const handleMetricChange = (metric: MetricType) => {
     setActiveMetric(metric);
   };
 
-  const getChartColor = () => {
-    switch (activeMetric) {
+  const getMetricColor = (metric: MetricType) => {
+    switch (metric) {
       case "calories":
         return "#ff7e42";
       case "duration":
@@ -40,7 +64,7 @@ export const ProgressChart = () => {
   const getYAxisLabel = () => {
     switch (activeMetric) {
       case "calories":
-        return "Calories Burned";
+        return "Calories";
       case "duration":
         return "Minutes";
       case "intensity":
@@ -52,43 +76,89 @@ export const ProgressChart = () => {
 
   // Transform progress data for the chart
   const chartData = useMemo(() => {
-    const workoutEntries = state.progress.filter(entry => entry.type === 'workout');
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    // Start week from Saturday
+    const days = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
     
-    return days.map(day => {
-      const dayEntries = workoutEntries.filter(entry => {
+    const dayDataArray = days.map(day => {
+      const dayEntries = state.progress.filter(entry => {
         const entryDate = new Date(entry.date);
-        return entryDate.toLocaleDateString('en-US', { weekday: 'short' }) === day;
+        const entryDay = entryDate.toLocaleDateString('en-US', { weekday: 'short' });
+        const isWorkout = entry.type === 'workout';
+        const isDone = entry.done;
+        
+        console.log(`Entry check for ${day}:`, {
+          entryDate,
+          entryDay,
+          isWorkout,
+          isDone,
+          entry
+        });
+        
+        return entryDay === day && isDone && isWorkout;
+      }).map(entry => {
+        const transformed = entry as unknown as WorkoutProgressEntry;
+        console.log('Transformed entry:', {
+          original: entry,
+          transformed,
+          workout: transformed.workout
+        });
+        return transformed;
       });
 
-      const totalDuration = dayEntries.reduce((sum, entry) => sum + (entry.duration || 0), 0);
+      // Sum up calories, duration, and intensity for the day
+      const totalCalories = dayEntries.reduce((sum, entry) => {
+        const calories = entry.workout?.caloriesBurned || 0;
+        console.log(`Planned Calories for ${day}:`, { workout: entry.workout?.name, calories });
+        return sum + calories;
+      }, 0);
 
-      console.log('Day Entries:', dayEntries);
-      console.log('Total Duration:', totalDuration);
+      const totalDuration = dayEntries.reduce((sum, entry) => {
+        const duration = entry.workout?.duration || 0;
+        console.log(`Planned Duration for ${day}:`, { workout: entry.workout?.name, duration });
+        return sum + duration;
+      }, 0);
 
-      return {
+      const totalIntensity = dayEntries.reduce((sum, entry) => {
+        const intensity = entry.workout?.averageIntensity || 0;
+        console.log(`Intensity for ${day}:`, { workout: entry.workout?.name, intensity });
+        return sum + intensity;
+      }, 0);
+
+      const result = {
         day,
-        calories: dayEntries.reduce((sum, entry) => sum + entry.value, 0),
+        calories: totalCalories,
         duration: totalDuration,
-        intensity: dayEntries.length > 0 ? Math.round(dayEntries.reduce((sum, entry) => sum + (entry.workoutType === 'cardio' ? 8 : entry.workoutType === 'strength' ? 7 : entry.workoutType === 'flexibility' ? 5 : 6), 0) / dayEntries.length) : 0,
-        done: dayEntries.some(entry => entry.done)
+        intensity: dayEntries.length > 0 ? totalIntensity / dayEntries.length : 0,
+        done: dayEntries.length > 0
       };
+
+      console.log(`Day ${day} result:`, result);
+      return result;
     });
+
+    console.log('Final chart data:', dayDataArray);
+    return dayDataArray;
   }, [state.progress]);
 
   const handleAddWorkout = async (data: {
     type: 'workout';
-    value: number;
-    duration: number;
-    workoutType: 'cardio' | 'strength' | 'flexibility' | 'other';
+    workout: {
+      id: string;
+      name: string;
+      exercises: Array<{
+        name: string;
+        sets: number;
+        reps: number;
+        duration?: number;
+        caloriesBurned?: number;
+        intensity?: number;
+      }>;
+    };
   }) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await addProgress({
-        ...data,
-        date: new Date().toISOString()
-      });
+      const response = await addProgress(data);
       dispatch({ type: 'ADD_PROGRESS', payload: response });
     } catch (err) {
       setError('Failed to add workout. Please try again.');
@@ -148,14 +218,11 @@ export const ProgressChart = () => {
               }}
             />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey={activeMetric}
-              stroke={getChartColor()}
-              strokeWidth={3}
-              dot={{ r: 4 }}
-              activeDot={{ r: 6, fill: getChartColor(), stroke: "#fff", strokeWidth: 2 }}
-              animationDuration={1000}
+            <Line 
+              type="monotone" 
+              dataKey={activeMetric} 
+              stroke={getMetricColor(activeMetric)} 
+              name={getYAxisLabel()} 
             />
           </LineChart>
         </ResponsiveContainer>

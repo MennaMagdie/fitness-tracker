@@ -1,0 +1,151 @@
+.streakTracker {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.streakHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.streakHeader h2 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.currentStreak {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #FF6B35;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.streakNumber {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.streakLabel {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+.weekView {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dayContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dayLabel {
+  color: #718096;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.dayIndicator {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #4CAF50;
+  transition: all 0.3s ease;
+}
+
+.dayIndicator.completed {
+  background: #4CAF50;
+  border-color: #4CAF50;
+  color: white;
+}
+
+.workoutInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.streakStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statLabel {
+  color: #718096;
+  font-size: 0.875rem;
+}
+
+.statValue {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #718096;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #e53e3e;
+  background: #fff5f5;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .streakTracker {
+    padding: 1.5rem;
+  }
+
+  .weekView {
+    gap: 0.5rem;
+  }
+
+  .dayIndicator {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .streakNumber {
+    font-size: 2rem;
+  }
+} 

@@ -5,6 +5,7 @@ export interface Exercise {
   description: string;
   duration?: number;
   reps?: number;
+  caloriesBurned?: number;
 }
 
 export interface Workout {
@@ -18,6 +19,7 @@ export interface Workout {
   image: string;
   isFavorited: boolean;
   exercises: Exercise[];
+  totalCaloriesBurned: number;
 }
 
 export const workouts: Workout[] = [
@@ -31,48 +33,55 @@ export const workouts: Workout[] = [
     thumbnail: 'public/images/workouts/strenghtworkout.webp',
     image: '/public/images/workouts/strenghtworkout.webp',
     isFavorited: false,
+    totalCaloriesBurned: 350,
     exercises: [
       { 
         name: 'Warm-up: Jumping Jacks', 
         timeOrReps: '1 minute', 
         image: '/images/jumping-jacks.jpg',
         description: 'Start with feet together, jump while spreading legs and raising arms overhead, then return to starting position.',
-        duration: 60
+        duration: 60,
+        caloriesBurned: 50
       },
       { 
         name: 'Push-ups', 
         timeOrReps: '3 sets of 12', 
         image: '/images/pushup.jpg',
         description: 'Start in a plank position, lower your body until your chest nearly touches the floor, then push back up.',
-        duration: 180
+        duration: 180,
+        caloriesBurned: 80
       },
       { 
         name: 'Squats', 
         timeOrReps: '3 sets of 15', 
         image: '/images/squat.jpg',
         description: 'Stand with feet shoulder-width apart, lower your body as if sitting in a chair, then return to standing.',
-        duration: 180
+        duration: 180,
+        caloriesBurned: 70
       },
       { 
         name: 'Plank', 
         timeOrReps: '3 sets of 30 seconds', 
         image: '/images/plank.jpg',
         description: 'Hold a push-up position with your forearms on the ground, keeping your body in a straight line.',
-        duration: 90
+        duration: 90,
+        caloriesBurned: 40
       },
       { 
         name: 'Lunges', 
         timeOrReps: '3 sets of 10 each leg', 
         image: '/images/lunges.jpg',
         description: 'Step forward with one leg, lower your hips until both knees are bent at 90 degrees.',
-        duration: 180
+        duration: 180,
+        caloriesBurned: 60
       },
       { 
         name: 'Mountain Climbers', 
         timeOrReps: '3 sets of 30 seconds', 
         image: '/images/mountain-climbers.jpg',
         description: 'In plank position, rapidly alternate bringing knees to chest.',
-        duration: 90
+        duration: 90,
+        caloriesBurned: 50
       },
       { 
         name: 'Cool Down: Stretching', 
@@ -93,48 +102,55 @@ export const workouts: Workout[] = [
     thumbnail: '/images/morning-yoga.jpg',
     image: '/images/morning-yoga.jpg',
     isFavorited: false,
+    totalCaloriesBurned: 120,
     exercises: [
       { 
         name: 'Breathing Exercise', 
         timeOrReps: '1 minute', 
         image: '/images/breathing.jpg',
         description: 'Sit comfortably, focus on deep breathing to center yourself.',
-        duration: 60
+        duration: 60,
+        caloriesBurned: 10
       },
       { 
         name: 'Sun Salutation', 
         timeOrReps: '3 rounds', 
         image: '/images/sun-salutation.jpg',
         description: 'A sequence of poses that flow together, starting and ending in mountain pose.',
-        duration: 180
+        duration: 180,
+        caloriesBurned: 40
       },
       { 
         name: 'Downward Dog', 
         timeOrReps: '30 seconds', 
         image: '/images/downward-dog.jpg',
         description: 'Form an inverted V with your body, hands and feet on the ground, hips lifted high.',
-        duration: 30
+        duration: 30,
+        caloriesBurned: 15
       },
       { 
         name: 'Warrior II', 
         timeOrReps: '30 seconds each side', 
         image: '/images/warrior-ii.jpg',
         description: 'Stand with legs wide apart, front knee bent, arms extended parallel to the floor.',
-        duration: 60
+        duration: 60,
+        caloriesBurned: 20
       },
       { 
         name: 'Tree Pose', 
         timeOrReps: '30 seconds each side', 
         image: '/images/tree-pose.jpg',
         description: 'Stand on one leg, place other foot on inner thigh, hands in prayer position.',
-        duration: 60
+        duration: 60,
+        caloriesBurned: 15
       },
       { 
         name: 'Child\'s Pose', 
         timeOrReps: '1 minute', 
         image: '/images/childs-pose.jpg',
         description: 'Kneel and sit back on heels, fold forward with arms extended.',
-        duration: 60
+        duration: 60,
+        caloriesBurned: 20
       }
     ],
   },
@@ -148,48 +164,55 @@ export const workouts: Workout[] = [
     thumbnail: '/images/hiit-power.jpg',
     image: '/images/hiit-power.jpg',
     isFavorited: false,
+    totalCaloriesBurned: 400,
     exercises: [
       { 
         name: 'Warm-up: High Knees', 
         timeOrReps: '1 minute', 
         image: '/images/high-knees.jpg',
         description: 'Run in place while bringing knees up to hip height.',
-        duration: 60
+        duration: 60,
+        caloriesBurned: 60
       },
       { 
         name: 'Burpees', 
         timeOrReps: '30 seconds', 
         image: '/images/burpees.jpg',
         description: 'Start standing, drop to a push-up position, do a push-up, jump back up with hands overhead.',
-        duration: 30
+        duration: 30,
+        caloriesBurned: 80
       },
       { 
         name: 'Mountain Climbers', 
         timeOrReps: '30 seconds', 
         image: '/images/mountain-climbers.jpg',
         description: 'In plank position, rapidly alternate bringing knees to chest.',
-        duration: 30
+        duration: 30,
+        caloriesBurned: 70
       },
       { 
         name: 'Jump Squats', 
         timeOrReps: '30 seconds', 
         image: '/images/jump-squats.jpg',
         description: 'Perform a squat, then explode upward into a jump, landing softly back in squat position.',
-        duration: 30
+        duration: 30,
+        caloriesBurned: 90
       },
       { 
         name: 'Rest', 
         timeOrReps: '30 seconds', 
         image: '/images/rest.jpg',
         description: 'Take a short break to catch your breath.',
-        duration: 30
+        duration: 30,
+        caloriesBurned: 0
       },
       { 
         name: 'Repeat Circuit', 
         timeOrReps: '2 rounds', 
         image: '/images/circuit.jpg',
         description: 'Repeat the previous exercises for another round.',
-        duration: 180
+        duration: 180,
+        caloriesBurned: 100
       },
       { 
         name: 'Cool Down: Stretching', 
@@ -210,6 +233,7 @@ export const workouts: Workout[] = [
     thumbnail: '/images/mobility-flow.jpg',
     image: '/images/mobility-flow.jpg',
     isFavorited: false,
+    totalCaloriesBurned: 0,
     exercises: [
       { 
         name: 'Neck Rolls', 
@@ -258,6 +282,7 @@ export const workouts: Workout[] = [
     thumbnail: '/images/power-yoga.jpg',
     image: '/images/power-yoga.jpg',
     isFavorited: false,
+    totalCaloriesBurned: 0,
     exercises: [
       { 
         name: 'Warm-up Flow', 
@@ -327,6 +352,7 @@ export const workouts: Workout[] = [
     thumbnail: '/images/quick-cardio.jpg',
     image: '/images/quick-cardio.jpg',
     isFavorited: false,
+    totalCaloriesBurned: 0,
     exercises: [
       { 
         name: 'Jumping Jacks', 
@@ -375,6 +401,7 @@ export const workouts: Workout[] = [
     thumbnail: '/images/strength-builder.jpg',
     image: '/images/strength-builder.jpg',
     isFavorited: false,
+    totalCaloriesBurned: 0,
     exercises: [
       { 
         name: 'Warm-up: Dynamic Stretches', 
@@ -437,6 +464,7 @@ export const workouts: Workout[] = [
     thumbnail: '/images/flexibility-focus.jpg',
     image: '/images/flexibility-focus.jpg',
     isFavorited: false,
+    totalCaloriesBurned: 0,
     exercises: [
       { 
         name: 'Forward Fold', 

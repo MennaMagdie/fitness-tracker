@@ -7,19 +7,42 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.backButton {
-  margin-bottom: 20px;
-  background-color: #4CAF50;
-  color: white;
+.backButton, .doneButton {
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  outline: none;
 }
 
-.backButton:hover {
-  background-color: #45a049;
+.backButton {
+  background: #1976d2;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+.backButton:hover, .backButton:focus {
+  background: #1565c0;
+  color: #fff;
+}
+
+.doneButton {
+  background: #4CAF50;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
+}
+.doneButton:hover, .doneButton:focus {
+  background: #388e3c;
+  color: #fff;
+}
+
+.doneButton:disabled {
+  background: #bdbdbd;
+  color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .planList {
@@ -56,19 +79,4 @@
 .planItem p {
   margin: 0;
   color: #555;
-}
-
-.doneButton {
-  margin-top: 10px;
-  background-color: #f0ad4e;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.doneButton:hover {
-  background-color: #ec971f;
 } 

@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { getProgress, getNutrition, getTodayNutrition } from '../services/api';
+import { useNavigate } from 'react-router-dom';
+import { getProgress, getNutrition, getTodayNutrition, addProgress as apiAddProgress } from '../services/api';
+import { useAuth } from './AuthContext';
 import styles from '../../pages/Profile.module.css';
 
 interface UserData {
@@ -12,6 +14,7 @@ interface UserData {
   bmiCategory: string;
   streak: number;
   progress: number;
+  age: number;
   nutrition: {
     calories: number;
     protein: number;
@@ -26,7 +29,7 @@ interface UserData {
   };
 }
 
-interface ProgressEntry {
+export interface ProgressEntry {
   id: string;
   type: 'workout' | 'bmi' | 'weight' | 'measurement';
   value: number;
@@ -136,9 +139,15 @@ const calculateDailyNutritionTotals = (nutrition: NutritionEntry[]) => {
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!isAuthenticated) {
+        return;
+      }
+
       try {
         dispatch({ type: 'SET_LOADING', payload: true });
         const [progressData, nutritionData, todayNutrition] = await Promise.all([
@@ -146,36 +155,98 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           getNutrition(),
           getTodayNutrition()
         ]);
-        dispatch({ type: 'SET_PROGRESS', payload: progressData });
+        const progress = Array.isArray(progressData.data) ? progressData.data : progressData;
+        dispatch({ type: 'SET_PROGRESS', payload: progress });
         dispatch({ type: 'SET_NUTRITION', payload: nutritionData });
         dispatch({ type: 'UPDATE_TODAY_NUTRITION', payload: todayNutrition.totals });
       } catch (error) {
-        dispatch({ type: 'SET_ERROR', payload: 'Failed to fetch data' });
+        const errorMessage = error instanceof Error ? error.message : 'Failed to fetch data';
+        dispatch({ type: 'SET_ERROR', payload: errorMessage });
+        
+        if (errorMessage.includes('Not authenticated') || errorMessage.includes('Session expired')) {
+          navigate('/login');
+        }
       } finally {
         dispatch({ type: 'SET_LOADING', payload: false });
       }
     };
 
     fetchData();
-  }, []);
+  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     const updateTodayNutrition = async () => {
+      if (!isAuthenticated) {
+        return;
+      }
+
       try {
         const todayNutrition = await getTodayNutrition();
         dispatch({ type: 'UPDATE_TODAY_NUTRITION', payload: todayNutrition.totals });
       } catch (error) {
         console.error('Failed to update today\'s nutrition:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Failed to update nutrition';
+        if (errorMessage.includes('Not authenticated') || errorMessage.includes('Session expired')) {
+          navigate('/login');
+        }
       }
     };
 
     if (state.nutrition.length > 0) {
       updateTodayNutrition();
     }
-  }, [state.nutrition]);
+  }, [state.nutrition, isAuthenticated, navigate]);
+
+  const customDispatch = async (action: AppAction) => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    if (action.type === 'ADD_PROGRESS') {
+      try {
+        let backendEntry = null;
+        if (
+          action.payload.type === 'workout' ||
+          action.payload.type === 'weight' ||
+          action.payload.type === 'measurement'
+        ) {
+          let backendPayload: any = action.payload;
+          if (action.payload.type === 'workout') {
+            backendPayload = {
+              type: 'workout',
+              workout: {
+                id: action.payload.id,
+                name: action.payload.notes?.replace('Completed ', '').replace(/ workout.*/i, ''),
+                exercises: [],
+                duration: action.payload.duration || 0,
+                caloriesBurned: action.payload.value || 0
+              },
+              notes: action.payload.notes || '',
+              photos: []
+            };
+          }
+          backendEntry = await apiAddProgress(backendPayload);
+          dispatch({ type: 'ADD_PROGRESS', payload: backendEntry });
+        } else {
+          // For unsupported types, just update local state
+          dispatch(action);
+        }
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to save progress';
+        dispatch({ type: 'SET_ERROR', payload: errorMessage });
+        
+        if (errorMessage.includes('Not authenticated') || errorMessage.includes('Session expired')) {
+          navigate('/login');
+        }
+      }
+    } else {
+      dispatch(action);
+    }
+  };
 
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
+    <AppContext.Provider value={{ state, dispatch: customDispatch }}>
       {children}
     </AppContext.Provider>
   );

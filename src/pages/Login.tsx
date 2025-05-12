@@ -1,13 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../components/Registration/registration.css";
 import React from 'react';
+import { login } from '../services/api';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -17,9 +22,19 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData); // will send data to API here
+    setError("");
+    setIsLoading(true);
+
+    try {
+      await login(formData.email, formData.password);
+      navigate('/home');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -28,6 +43,7 @@ const Login = () => {
     <div className="signup">
       <div className="signup-container">
         <h2 className="text-center">Ready for today's workout?</h2>
+          {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -52,15 +68,14 @@ const Login = () => {
             />
           </div>
       
-          <button type="submit" className="btn btn-light w-100">
-            Sign In
+            <button type="submit" className="btn btn-light w-100" disabled={isLoading}>
+              {isLoading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
       </div>
     </div>
     </>
   );
-  
 };
 
 export default Login;

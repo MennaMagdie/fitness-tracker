@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Navbar } from "../components/Home/Navbar";
 import { Footer } from "../components/Home/Footer";
@@ -6,8 +5,10 @@ import { ProgressChart } from "../components/Dashboard/ProgressChart";
 import { NutritionTracker } from "../components/Dashboard/NutritionTracker";
 import { Reminders } from "../components/Dashboard/Reminders";
 import { ChevronRight } from "lucide-react";
+import { useAppContext } from "../context/AppContext";
 
 const Dashboard = () => {
+  const { state } = useAppContext();
   const [animatedElements, setAnimatedElements] = useState<NodeListOf<Element> | null>(null);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const Dashboard = () => {
       
       <main className="dashboard-container">
         <div className="dashboard-header fade-in">
-          <h1 className="dashboard-title">Your Fitness Dashboard</h1>
+          <h1 className="dashboard-title">Welcome back, {state.userData?.name || 'User'}! 👋</h1>
           <p className="dashboard-subtitle">Track your progress, nutrition, and stay on top of your fitness goals</p>
           
           <div className="breadcrumb">
