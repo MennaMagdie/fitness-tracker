@@ -92,9 +92,9 @@ const Training = () => {
   };
 
   // Function to flip trainer card
-  const [flippedCard, setFlippedCard] = useState(null);
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
   
-  const handleCardFlip = (trainerId: null) => {
+  const handleCardFlip = (trainerId: number | null) => {
     setFlippedCard(flippedCard === trainerId ? null : trainerId);
   };
 

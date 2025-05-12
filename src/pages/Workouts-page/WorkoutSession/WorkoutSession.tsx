@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Layout from '../../components/Layout/Layout';
-import { workouts } from '../../data/workoutsData';
+import Layout from '../../../components/Layout/Layout';
+import { workouts, Workout, Exercise } from '../../../data/workoutsData';
 import styles from './WorkoutSession.module.css';
+
+// Workout and Exercise interfaces already defined in workoutsData
 
 const WorkoutSession: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,7 +13,7 @@ const WorkoutSession: React.FC = () => {
   const [isResting, setIsResting] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
-  const workout = workouts.find(w => w.id === id);
+  const workout = workouts.find((w: Workout) => w.id === id);
 
   useEffect(() => {
     if (!workout) return;
@@ -125,4 +127,4 @@ const WorkoutSession: React.FC = () => {
   );
 };
 
-export default WorkoutSession; 
+export default WorkoutSession;

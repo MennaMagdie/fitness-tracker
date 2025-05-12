@@ -1,0 +1,22 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import './App.css';
+// import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Landing from './pages/Landing';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
+import Workouts from './pages/Workouts-page/Workouts';
+import WorkoutDetail from './pages/Workouts-page/WorkoutDetail';
+import { WorkoutPlanProvider } from './context/WorkoutPlanContext';
+import StartWorkout from './pages/Workouts-page/StartWorkout/StartWorkout';
+import NotFoundPage from './pages/Notfound';
+import Feedback from './pages/Feedback';
+import Training from './pages/Trainers';
+import Challenges from './pages/Challenges';
+const App = () => {
+    return (_jsx(WorkoutPlanProvider, { children: _jsxs(Routes, { children: [_jsx(Route, { index: true, element: _jsx(Landing, {}) }), _jsx(Route, { path: "/signup", element: _jsx(Signup, {}) }), _jsx(Route, { path: "/login", element: _jsx(Login, {}) }), _jsx(Route, { path: "/home", element: _jsx(Home, {}) }), _jsx(Route, { path: "/profile", element: _jsx(Profile, {}) }), _jsx(Route, { path: "/dashboard", element: _jsx(Dashboard, {}) }), _jsx(Route, { path: "/workouts", element: _jsx(Workouts, {}) }), _jsx(Route, { path: "/workouts/:id", element: _jsx(WorkoutDetail, {}) }), _jsx(Route, { path: "/start-workout/:id", element: _jsx(StartWorkout, {}) }), _jsx(Route, { path: "*", element: _jsx(NotFoundPage, {}) }), _jsx(Route, { path: "/feedback", element: _jsx(Feedback, {}) }), _jsx(Route, { path: '/trainers', element: _jsx(Training, {}) }), _jsx(Route, { path: '/challenges', element: _jsx(Challenges, {}) })] }) }));
+};
+export default App;
