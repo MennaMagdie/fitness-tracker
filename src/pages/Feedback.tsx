@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import fitnessBackground from '../../assets/hero-image.png'; // Adjust path based on your project structure
-
+import { Footer } from '../components/Home/Footer';
+import { Navbar } from '../components/Home/Navbar';
 const FeedbackPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -37,6 +38,8 @@ const FeedbackPage: React.FC = () => {
 
   if (isSubmitted) {
     return (
+    <>  
+    <Navbar />  
       <div style={styles.container}>
         <style>{`
           @keyframes fadeIn {
@@ -55,10 +58,14 @@ const FeedbackPage: React.FC = () => {
           <p style={styles.successText}>Your feedback helps us improve. We'll get back to you soon!</p>
         </div>
       </div>
+      {/* <Footer /> ملهوش لازمه هنا */}
+    </>  
     );
   }
 
   return (
+  <>
+  <Navbar />  
     <div style={{ ...styles.container, backgroundImage: `url(${fitnessBackground})` }}>
       <style>{`
         @keyframes spin {
@@ -231,6 +238,8 @@ const FeedbackPage: React.FC = () => {
         </form>
       </div>
     </div>
+    <Footer />
+</>
   );
 };
 

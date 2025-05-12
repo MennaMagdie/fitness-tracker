@@ -1,6 +1,5 @@
-// import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { Home, User, Users, ActivityIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
   return (
@@ -8,24 +7,42 @@ export const Navbar = () => {
       <div className="container px-4 sm:px-6 lg:px-8">
         <div className="navbar-container">
           <div className="flex">
-            <Link to="/" className="navbar-brand navbar-link">
+            <NavLink to="/" className={({ isActive }) => `navbar-brand navbar-link ${isActive ? 'active' : ''}`}>
               <Home className="h-6 w-6 text-primary" />
               <span className="ml-2 text-xl font-semibold">NeuroFit</span>
-            </Link>
+            </NavLink>
           </div>
 
           <div className="flex items-center space-x-4">
-            <Link to="/dashboard" className="btn btn-ghost navbar-link">
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) => `btn btn-ghost navbar-link ${isActive ? 'active' : ''}`}
+            >
               <ActivityIcon className="mr-2 h-4 w-4" />
               Dashboard
-            </Link>
+            </NavLink>
 
             <div className="dropdown">
               <button className="btn btn-ghost navbar-link">Services</button>
               <div className="dropdown-content">
-                <a href="#" className="dropdown-item">Personal Training</a>
-                <Link to="/workouts" className="dropdown-item">Workouts</Link>
-                <Link to="/dashboard" className="dropdown-item">Nutrition Plans</Link>
+                <NavLink
+                  to="/trainers"
+                  className={({ isActive }) => `dropdown-item ${isActive ? 'active' : ''}`}
+                >
+                  Meet Trainers
+                </NavLink>
+                <NavLink
+                  to="/workouts"
+                  className={({ isActive }) => `dropdown-item ${isActive ? 'active' : ''}`}
+                >
+                  Workouts
+                </NavLink>
+                <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) => `dropdown-item ${isActive ? 'active' : ''}`}
+                >
+                  Nutrition Plans
+                </NavLink>
               </div>
             </div>
 
@@ -35,9 +52,21 @@ export const Navbar = () => {
                 Community
               </button>
               <div className="dropdown-content">
-                <Link to="/feedback" className="dropdown-item">Feedback</Link>
-                <a href="#" className="dropdown-item">Events</a>
-                <a href="#" className="dropdown-item">Challenges</a>
+                <NavLink
+                  to="/feedback"
+                  className={({ isActive }) => `dropdown-item ${isActive ? 'active' : ''}`}
+                >
+                  Feedback
+                </NavLink>
+                <a href="#" className="dropdown-item">
+                  Events
+                </a>
+                <NavLink
+                  to="/challenges"
+                  className={({ isActive }) => `dropdown-item ${isActive ? 'active' : ''}`}
+                >
+                  Challenges
+                </NavLink>
               </div>
             </div>
 
@@ -47,10 +76,27 @@ export const Navbar = () => {
                 Profile
               </button>
               <div className="dropdown-content">
-                <Link to="/profile" className="dropdown-item">Profile</Link>
-                <Link to="/profile?tab=settings" className="dropdown-item">Settings</Link>
-                <Link to="/workouts" className="dropdown-item">Workouts</Link>
-                <a href="/login" className="dropdown-item">Sign Out</a>
+                <NavLink
+                  to="/profile"
+                  className={({ isActive }) => `dropdown-item ${isActive ? 'active' : ''}`}
+                >
+                  Profile
+                </NavLink>
+                <NavLink
+                  to="/profile?tab=settings"
+                  className={({ isActive }) => `dropdown-item ${isActive ? 'active' : ''}`}
+                >
+                  Settings
+                </NavLink>
+                <NavLink
+                  to="/workouts"
+                  className={({ isActive }) => `dropdown-item ${isActive ? 'active' : ''}`}
+                >
+                  Workouts
+                </NavLink>
+                <a href="/login" className="dropdown-item">
+                  Sign Out
+                </a>
               </div>
             </div>
           </div>

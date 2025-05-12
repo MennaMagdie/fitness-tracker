@@ -91,7 +91,7 @@ export const workouts: Workout[] = [
     duration: 15,
     intensity: 'low',
     thumbnail: '/images/morning-yoga.jpg',
-    image: '/images/morning-yoga.jpg',
+    image: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&q=80',
     isFavorited: false,
     exercises: [
       { 
@@ -146,7 +146,7 @@ export const workouts: Workout[] = [
     duration: 20,
     intensity: 'high',
     thumbnail: '/images/hiit-power.jpg',
-    image: '/images/hiit-power.jpg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLF6KeExdI2bTbyDUPFFUIhfG64qvHge4qZg&s',
     isFavorited: false,
     exercises: [
       { 
@@ -208,7 +208,7 @@ export const workouts: Workout[] = [
     duration: 10,
     intensity: 'low',
     thumbnail: '/images/mobility-flow.jpg',
-    image: '/images/mobility-flow.jpg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQos2lw-F2Wqp6zoOERyRQ8srqH2YuyD4zslw&s',
     isFavorited: false,
     exercises: [
       { 
@@ -256,7 +256,7 @@ export const workouts: Workout[] = [
     duration: 45,
     intensity: 'medium',
     thumbnail: '/images/power-yoga.jpg',
-    image: '/images/power-yoga.jpg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAby-ejWKTKExprD0bXFOEyMTrd_xbfYqkJQ&s',
     isFavorited: false,
     exercises: [
       { 
@@ -325,7 +325,7 @@ export const workouts: Workout[] = [
     duration: 5,
     intensity: 'medium',
     thumbnail: '/images/quick-cardio.jpg',
-    image: '/images/quick-cardio.jpg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKMdJGFa6gFOY5Qdthlthrk3y0Jyt3MXXWFQ&s',
     isFavorited: false,
     exercises: [
       { 
@@ -373,7 +373,7 @@ export const workouts: Workout[] = [
     duration: 60,
     intensity: 'high',
     thumbnail: '/images/strength-builder.jpg',
-    image: '/images/strength-builder.jpg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGZEU9SRY0bHa5OrMLqovoE3TIhfHZl4es0g&s',
     isFavorited: false,
     exercises: [
       { 
@@ -435,7 +435,7 @@ export const workouts: Workout[] = [
     duration: 20,
     intensity: 'low',
     thumbnail: '/images/flexibility-focus.jpg',
-    image: '/images/flexibility-focus.jpg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDqv2FITPYqy7Jrid-22RuN2KW4ihuplPZ6g&s',
     isFavorited: false,
     exercises: [
       { 

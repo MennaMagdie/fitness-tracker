@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "../components/Home/Navbar";
 import { Footer } from "../components/Home/Footer";
 import { ProgressChart } from "../components/Dashboard/ProgressChart";

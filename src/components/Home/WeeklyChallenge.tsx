@@ -1,6 +1,8 @@
 
 // import React from "react";
 
+import { Link } from "react-router-dom";
+
 export const WeeklyChallenge = () => {
   return (
     <div className="challenge-card card">
@@ -15,7 +17,7 @@ export const WeeklyChallenge = () => {
           </div>
           <p className="text-sm mt-2">2 of 5 workouts completed</p>
         </div>
-        <button className="btn btn-secondary btn-full">Join Challenge</button>
+        <Link to='/challenges' className="btn btn-secondary btn-full">Join Our Challenges</Link> 
       </div>
     </div>
   );

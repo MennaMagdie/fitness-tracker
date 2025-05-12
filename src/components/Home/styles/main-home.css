@@ -496,6 +496,8 @@ button {
   margin-top: 2rem;
 }
 
+
+
 /* Responsive */
 @media (min-width: 640px) {
   .sm\:px-6 {
