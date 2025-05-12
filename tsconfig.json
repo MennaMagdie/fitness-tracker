@@ -1,32 +1,17 @@
 {
-    "files": [],
-    "references": [
-      { "path": "./tsconfig.app.json" },
-      { "path": "./tsconfig.node.json" }
-    ],
-    "compilerOptions": {
-      "baseUrl": ".",
-      "jsx": "react-jsx",
-      "paths": {
-        "@/*": ["./src/*"]
-      },
-      "noImplicitAny": false,
-      "noUnusedParameters": false,
-      "skipLibCheck": true,
-      "allowJs": true,
-      "noUnusedLocals": false,
-      "strictNullChecks": false
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
     }
-  }
-  
-//   {
-//   "compilerOptions": {
-//     "target": "es6",
-//     "module": "commonjs",
-//     "strict": true,
-//     "esModuleInterop": true,
-//     "skipLibCheck": true,
-//     "forceConsistentCasingInFileNames": true
-//   },
-//   "include": ["src"]
-// }
+  },
+  "include": ["src"]
+}
