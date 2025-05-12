@@ -15,13 +15,13 @@ const testimonials = [
   
   {
     text: "As someone who’s always struggled to stay motivated, NeuroFit has been a game-changer. The daily reminders and personalized workout plans have helped me stay on track.",
-    author: "Chris Smith",
+    author: "Chris Joo",
     role: "User Testimonial",
   },
   
   {
     text: "I love how NeuroFit makes tracking my fitness goals so easy. The dashboard provides detailed insights, and the support from the team is amazing. It’s an all-in-one solution that really works!",
-    author: "Rachel Lee",
+    author: "Joo Lee",
     role: "Fitness Enthusiast",
   }
   ,
@@ -39,7 +39,7 @@ const Testimonials = () => {
             <div key={index} className="testimonial-card">
               <p className="testimonial-text">“{testimonial.text}”</p>
               <div className="testimonial-footer">
-                <div className="testimonial-avatar" />
+                <div className="testimonial-avatar"/>
                 <div>
                   <div className="testimonial-author">{testimonial.author}</div>
                   <div className="testimonial-role">{testimonial.role}</div>

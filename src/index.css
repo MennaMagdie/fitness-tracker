@@ -3,3 +3,53 @@
 
 @import './components/Home/styles/main-home.css';
 @import './components/Dashboard/styles/dashboard.css';
+
+/* Scroll Bar Design */ 
+::-webkit-scrollbar {
+  width: 10px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #70511c; 
+  border-radius: 10px;
+  border: 2px solid #0074e7; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff9900; 
+}
+
+/* Support Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #ffb032 #f1f5f9; 
+}
+
+/* some style refactor..  */
+
+ .challenge-card{
+    background-color: #f1f5f9;
+ }
+
+ /* ......................................  */
+/* تأكد إن النافبار يعرف الصفحة النشطة */
+.active {
+  background-color: rgba(249, 115, 22, 0.2); /* خلفية برتقالية شفافة */
+  backdrop-filter: blur(8px); /* تأثير البلور */
+  -webkit-backdrop-filter: blur(8px); /* دعم Safari */
+  color: #f97316; /* لون النص برتقالي */
+  font-weight: 700; /* نص أغمق */
+  border-radius: 6px; /* زوايا مدورة */
+  padding: 8px 12px; /* مساحة داخلية عشان البلور يبان */
+}
+
+/* تأثير hover على الروابط (اختياري) */
+a:hover {
+  color: #f97316;
+  transition: color 0.2s ease;
+}
