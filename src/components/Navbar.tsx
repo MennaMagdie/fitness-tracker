@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import React from "react";
+// import React from "react";
 
 
 const Navbar = () => {

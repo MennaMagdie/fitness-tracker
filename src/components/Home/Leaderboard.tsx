@@ -1,11 +1,11 @@
 
-import React from "react";
+// import React from "react";
 import { User } from "lucide-react";
 
 const topUsers = [
-  { name: "Sarah Johnson", points: 2500, rank: 1 },
-  { name: "Mike Chen", points: 2350, rank: 2 },
-  { name: "Alex Smith", points: 2200, rank: 3 },
+  { name: "Joo Fahmy", points: 2500, rank: 1 },
+  { name: "Youssef Salah", points: 2350, rank: 2 },
+  { name: "Ali Ahmed", points: 2200, rank: 3 },
 ];
 
 export const Leaderboard = () => {

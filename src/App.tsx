@@ -11,6 +11,8 @@ import Workouts from './pages/Workouts-page/Workouts';
 import WorkoutDetail from './pages/Workouts-page/WorkoutDetail';
 import { WorkoutPlanProvider } from './context/WorkoutPlanContext';
 import StartWorkout from './pages/Workouts-page/StartWorkout/StartWorkout';
+import NotFoundPage from './pages/Notfound';
+import Feedback from './pages/Feedback';
 
 
 const App: React.FC = () => {
@@ -26,6 +28,8 @@ const App: React.FC = () => {
         <Route path="/workouts" element={<Workouts />} />
         <Route path="/workouts/:id" element={<WorkoutDetail />} />
         <Route path="/start-workout/:id" element={<StartWorkout />} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/feedback" element={<Feedback />} />
       </Routes>
     </WorkoutPlanProvider>
   );
