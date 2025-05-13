@@ -1,16 +1,17 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Layout from '../../components/Layout/Layout';
-import { workouts } from '../../data/workoutsData';
+import Layout from '../../../components/Layout/Layout';
+import { workouts } from '../../../data/workoutsData';
 import styles from './WorkoutSession.module.css';
+// Workout and Exercise interfaces already defined in workoutsData
 const WorkoutSession = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [isResting, setIsResting] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
-    const workout = workouts.find(w => w.id === id);
+    const workout = workouts.find((w) => w.id === id);
     useEffect(() => {
         if (!workout)
             return;
